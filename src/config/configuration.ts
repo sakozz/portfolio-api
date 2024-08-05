@@ -1,12 +1,17 @@
+import * as dotenv from 'dotenv';
+
+// Load environment variables from .env file, where API keys and passwords are configured.
+dotenv.config();
+
 export default () =>
   ({
-    port: parseInt(process.env.PORT, 10) || 3000,
+    port: 3000,
     pg: {
-      dbName: process.env.DATABASE_NAME || 'portfolio_db',
-      username: process.env.DATABASE_USERNAME || 'pgUser',
-      password: process.env.DATABASE_PASSWORD || 'pgPassword',
-      host: process.env.DATABASE_HOST || 'localhost',
-      port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+      dbName: process.env.POSTGRES_DB,
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DB_PORT, 10),
     },
     auth: {
       ttl: 60 * 60 * 24, // 1 day (in seconds)

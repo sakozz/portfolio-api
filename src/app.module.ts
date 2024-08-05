@@ -18,7 +18,6 @@ import { User } from './entities/user.entity';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
-      // envFilePath: ['.env.development.local', '.env.test', '.env.production'],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

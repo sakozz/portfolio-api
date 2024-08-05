@@ -1,7 +1,10 @@
 import { ConfigService } from '@nestjs/config';
-// import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
-export const postgresConfig = (config: ConfigService, entities: any[]) => {
+export const postgresConfig = (
+  config: ConfigService,
+  entities: any[],
+): PostgresConnectionOptions => {
   return {
     type: 'postgres',
     host: config.get('pg.host'),
@@ -10,7 +13,6 @@ export const postgresConfig = (config: ConfigService, entities: any[]) => {
     password: config.get('pg.password'),
     database: config.get('pg.dbName'),
     entities: entities,
-    autoLoadEntities: true,
-    synchronize: true,
+    synchronize: false,
   };
 };
