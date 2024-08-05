@@ -7,7 +7,7 @@ import { UsersModule } from './modules/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { postgresConfig } from './database/config';
+import { postgresConfig } from './db/config';
 import { User } from './entities/user.entity';
 
 @Module({
