@@ -4,8 +4,11 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { UsersModule } from './modules/users/users.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { postgresConfig } from './database/config';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -16,6 +19,11 @@ import configuration from './config/configuration';
       isGlobal: true,
       load: [configuration],
       // envFilePath: ['.env.development.local', '.env.test', '.env.production'],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => postgresConfig(config, [User]),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AppController],
