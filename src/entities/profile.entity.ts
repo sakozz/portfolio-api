@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Profile {
@@ -28,4 +35,13 @@ export class Profile {
 
   @Column({ length: 3000 })
   description: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

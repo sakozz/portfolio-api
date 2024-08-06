@@ -13,6 +13,6 @@ export const postgresConfig = (
     password: config.get('pg.password'),
     database: config.get('pg.dbName'),
     entities: entities,
-    synchronize: false,
+    synchronize: true,
   };
 };
