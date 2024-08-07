@@ -5,15 +5,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Profile {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 100 })
-  email: string;
+  @OneToOne(() => User)
+  @JoinColumn()
+  user: User;
 
   @Column({ length: 50 })
   firstName: string;
@@ -21,16 +25,16 @@ export class Profile {
   @Column({ length: 50 })
   lastName: string;
 
-  @Column({ length: 150 })
+  @Column({ length: 150, nullable: true })
   linkedInUrl: string;
 
-  @Column({ length: 150 })
+  @Column({ length: 150, nullable: true })
   githubUrl: string;
 
-  @Column({ length: 150 })
+  @Column({ length: 150, nullable: true })
   facebookUrl: string;
 
-  @Column({ length: 150 })
+  @Column({ length: 150, nullable: true })
   stackoverflowUrl: string;
 
   @Column({ length: 3000 })

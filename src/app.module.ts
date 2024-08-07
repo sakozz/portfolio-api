@@ -8,7 +8,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresConfig } from './db/config';
-import { User } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -21,7 +20,7 @@ import { User } from './entities/user.entity';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => postgresConfig(config, [User]),
+      useFactory: async (config: ConfigService) => postgresConfig(config),
       inject: [ConfigService],
     }),
   ],
