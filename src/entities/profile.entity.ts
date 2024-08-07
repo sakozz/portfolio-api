@@ -1,20 +1,9 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  DeleteDateColumn,
-  UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, DeleteDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
+import { BasicEntity } from './base.entity';
 
 @Entity()
-export class Profile {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Profile extends BasicEntity {
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
@@ -39,12 +28,6 @@ export class Profile {
 
   @Column({ length: 3000 })
   description: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date;

@@ -1,17 +1,8 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  DeleteDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, Column, DeleteDateColumn } from 'typeorm';
+import { BasicEntity } from './base.entity';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends BasicEntity {
   @Column({ length: 100, unique: true })
   email: string;
 
@@ -26,12 +17,6 @@ export class User {
     nullable: true,
   })
   isActive: boolean;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date;
