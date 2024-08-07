@@ -7,6 +7,7 @@ import { UserDto } from './dtos/user.dto';
 @Serialize(UserDto)
 export class UsersController {
   constructor(private service: UsersService) {}
+
   @Get('/')
   users(): Promise<any[]> {
     return Promise.resolve([]);
