@@ -11,6 +11,18 @@ export class Profile extends BasicEntity {
   @Column({ length: 100, unique: true })
   email: string;
 
+  @Column({ length: 16, nullable: true })
+  phone: string;
+
+  @Column({ length: 1000, nullable: true })
+  address: string;
+
+  @Column({ type: 'date', nullable: true })
+  dateOfBirth: string;
+
+  @Column({ nullable: true })
+  nationality: string;
+
   @Column({ length: 50 })
   firstName: string;
 

@@ -1,8 +1,19 @@
 import { Expose } from 'class-transformer';
-
 export default class ProfileDto {
   @Expose()
-  userId: string;
+  email: string;
+
+  @Expose()
+  phone: string;
+
+  @Expose()
+  address: string;
+
+  @Expose()
+  dateOfBirth: string;
+
+  @Expose()
+  nationality: string;
 
   @Expose()
   firstName: string;
@@ -21,4 +32,10 @@ export default class ProfileDto {
 
   @Expose()
   description: string;
+
+  @Expose()
+  avatarUrl: string;
+
+  @Expose({ groups: ['admin'] })
+  deletedAt: Date;
 }
