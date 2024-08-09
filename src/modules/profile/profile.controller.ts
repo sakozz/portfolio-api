@@ -2,11 +2,12 @@ import { Body, Controller, Delete, Get, Post, Put, Req, UseGuards, Param } from 
 
 import { ProfilesService } from './profiles.service';
 import CreateProfileDto from './dto/create-profile.dto';
-import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
+
 import { Request } from 'express';
 import ProfileDto from './dto/profile.dto';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import UpdateProfileDto from './dto/update-profile.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @Controller('profiles')
 @UseGuards(JwtAuthGuard)

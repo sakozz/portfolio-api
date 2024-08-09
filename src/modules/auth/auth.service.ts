@@ -7,11 +7,15 @@ import { Repository } from 'typeorm';
 import { SignupDto } from './dto/signup.dto';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import * as bcrypt from 'bcrypt';
+import { consts } from 'src/config/constants';
+import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
+    private configService: ConfigService,
     @InjectRepository(User) private repo: Repository<User>,
   ) {}
 
@@ -57,5 +61,13 @@ export class AuthService {
     const payload = { id: user.id, email: user.email, role: user.role };
     const jwt = this.jwtService.sign(payload);
     return { token: jwt, ...payload };
+  }
+
+  setCookie(res: Response, payload: any) {
+    const jwt = this.jwtService.sign(payload);
+    res.cookie(consts.cookieName, jwt, {
+      expires: new Date(Date.now() + this.configService.get('auth.ttl') * 1000),
+      httpOnly: true,
+    });
   }
 }

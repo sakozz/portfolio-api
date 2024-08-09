@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class InitialSchema1723034390490 implements MigrationInterface {
-  name = 'InitialSchema1723034390490';
+export class InitialSchema1723201677859 implements MigrationInterface {
+  name = 'InitialSchema1723201677859';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
@@ -18,7 +18,7 @@ export class InitialSchema1723034390490 implements MigrationInterface {
                 "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
                 "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
                 "email" character varying(100) NOT NULL,
-                "password" character varying(100) NOT NULL,
+                "password" character varying(300) NOT NULL,
                 "role" character varying(50) NOT NULL,
                 "isActive" boolean DEFAULT false,
                 "deletedAt" TIMESTAMP,
@@ -31,15 +31,18 @@ export class InitialSchema1723034390490 implements MigrationInterface {
                 "id" SERIAL NOT NULL,
                 "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
                 "updatedAt" TIMESTAMP NOT NULL DEFAULT now(),
+                "email" character varying(100) NOT NULL,
                 "firstName" character varying(50) NOT NULL,
                 "lastName" character varying(50) NOT NULL,
                 "linkedInUrl" character varying(150),
                 "githubUrl" character varying(150),
                 "facebookUrl" character varying(150),
                 "stackoverflowUrl" character varying(150),
-                "description" character varying(3000) NOT NULL,
+                "description" character varying(3000),
+                "avatarUrl" character varying(500),
                 "deletedAt" TIMESTAMP,
                 "userId" integer,
+                CONSTRAINT "UQ_3825121222d5c17741373d8ad13" UNIQUE ("email"),
                 CONSTRAINT "REL_a24972ebd73b106250713dcddd" UNIQUE ("userId"),
                 CONSTRAINT "PK_3dd8bfc97e4a77c70971591bdcb" PRIMARY KEY ("id")
             )

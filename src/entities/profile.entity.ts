@@ -8,6 +8,9 @@ export class Profile extends BasicEntity {
   @JoinColumn()
   user: User;
 
+  @Column({ length: 100, unique: true })
+  email: string;
+
   @Column({ length: 50 })
   firstName: string;
 
@@ -26,8 +29,11 @@ export class Profile extends BasicEntity {
   @Column({ length: 150, nullable: true })
   stackoverflowUrl: string;
 
-  @Column({ length: 3000 })
+  @Column({ length: 3000, nullable: true })
   description: string;
+
+  @Column({ length: 500, nullable: true })
+  avatarUrl: string;
 
   @DeleteDateColumn()
   deletedAt: Date;

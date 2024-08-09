@@ -9,10 +9,13 @@ import { LocalStrategy } from 'src/modules/auth/strategies/local.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
+import { GoogleAuthService } from './services/google-auth.service';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { Profile } from 'src/entities/profile.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Profile]),
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -24,6 +27,13 @@ import { User } from 'src/entities/user.entity';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, ConfigService],
+  providers: [
+    AuthService,
+    GoogleAuthService,
+    LocalStrategy,
+    JwtStrategy,
+    GoogleStrategy,
+    ConfigService,
+  ],
 })
 export class AuthModule {}
