@@ -1,6 +1,6 @@
 export const consts = {
   cookieName: 'profile_cookie',
-  nameMinLength: 5,
+  nameMinLength: 2,
   nameMaxLength: 50,
   linkMaxLength: 250,
   descriptionsMinLength: 20,

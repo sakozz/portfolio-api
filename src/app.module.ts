@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresConfig } from './db/config';
 import { ExperienceModule } from './modules/profile/experiences/experience.module';
 import { SkillGroupsModule } from './modules/profile/skill-groups/skill-groups.module';
+import { CompetencesModule } from './modules/competences/competences.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { SkillGroupsModule } from './modules/profile/skill-groups/skill-groups.m
     ProfileModule,
     ExperienceModule,
     SkillGroupsModule,
+    CompetencesModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
