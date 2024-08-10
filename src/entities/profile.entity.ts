@@ -3,6 +3,7 @@ import { User } from './user.entity';
 import { BasicEntity } from './base.entity';
 import { Experience } from './experience.entity';
 import { Education } from './education.entity';
+import { SkillGroup } from './skill-group.entity';
 
 @Entity()
 export class Profile extends BasicEntity {
@@ -15,6 +16,9 @@ export class Profile extends BasicEntity {
 
   @OneToMany(() => Education, (education) => education.profile)
   educations: Education[];
+
+  @OneToMany(() => SkillGroup, (group) => group.profile)
+  skillGroups: SkillGroup[];
 
   @Column({ length: 100, unique: true })
   email: string;
