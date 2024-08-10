@@ -1,12 +1,20 @@
-import { Entity, Column, DeleteDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, DeleteDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from './user.entity';
 import { BasicEntity } from './base.entity';
+import { Experience } from './experience.entity';
+import { Education } from './education.entity';
 
 @Entity()
 export class Profile extends BasicEntity {
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => Experience, (experience) => experience.profile)
+  experiences: Experience[];
+
+  @OneToMany(() => Education, (education) => education.profile)
+  educations: Education[];
 
   @Column({ length: 100, unique: true })
   email: string;

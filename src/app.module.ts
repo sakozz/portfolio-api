@@ -8,12 +8,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresConfig } from './db/config';
+import { ExperienceModule } from 'src/modules/experiences/experienceModule';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     ProfileModule,
+    ExperienceModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],

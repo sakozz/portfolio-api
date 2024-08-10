@@ -1,6 +1,9 @@
 import { Expose } from 'class-transformer';
 export default class ProfileDto {
   @Expose()
+  id: string;
+
+  @Expose()
   email: string;
 
   @Expose()
