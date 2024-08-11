@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsInt, Max, Min, IsOptional, IsBoolean } from 'class-validator';
 
-export default class GroupCompetenceDto {
+export default class SaveGroupCompetenceDto {
   @IsNotEmpty()
   competenceId: number;
 

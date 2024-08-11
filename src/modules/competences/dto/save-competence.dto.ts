@@ -1,8 +1,7 @@
 import { IsNotEmpty, MinLength, MaxLength, IsOptional } from 'class-validator';
 import { consts } from 'src/config/constants';
-import GroupCompetenceDto from '../../group-competences/dto/group-competence.dto';
 
-export default class SkillGroupDto {
+export default class SaveCompetenceDto {
   @IsNotEmpty()
   @MinLength(consts.nameMinLength)
   @MaxLength(consts.nameMaxLength)
@@ -12,7 +11,4 @@ export default class SkillGroupDto {
   @MinLength(consts.descriptionsMinLength)
   @MaxLength(consts.descriptionMaxLength)
   description: string;
-
-  @IsNotEmpty()
-  competences: GroupCompetenceDto[];
 }

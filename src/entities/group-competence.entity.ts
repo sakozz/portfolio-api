@@ -1,4 +1,4 @@
-import { Entity, Column, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, OneToOne, RelationId } from 'typeorm';
 import { BasicEntity } from './base.entity';
 import { SkillGroup } from './skill-group.entity';
 import { Competence } from './competence.entity';
@@ -13,6 +13,9 @@ export class GroupCompetence extends BasicEntity {
   @OneToOne(() => Competence)
   @JoinColumn()
   competence: Competence;
+
+  @RelationId((groupCompetence: GroupCompetence) => groupCompetence.competence)
+  competenceId: number;
 
   @Column()
   level: number;

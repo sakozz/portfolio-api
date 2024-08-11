@@ -16,7 +16,7 @@ const dataSourceOptions: DataSourceOptions = {
   entities: [join(__dirname, '../entities/', '*.entity.{ts,js}')],
   migrations: [join(__dirname, './migrations/', '*.{ts,js}')],
   synchronize: true,
-  logging: false,
+  logging: true,
   subscribers: [],
   migrationsTableName: 'migrations_typeorm',
 };

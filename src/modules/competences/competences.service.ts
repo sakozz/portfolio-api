@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import CompetenceDto from './dto/competence.dto';
 import { Competence } from '../../entities/competence.entity';
+import SaveCompetenceDto from './dto/save-competence.dto';
 
 @Injectable()
 export class CompetencesService {
@@ -14,7 +14,7 @@ export class CompetencesService {
     return record;
   }
 
-  async create(payload: CompetenceDto): Promise<Competence> {
+  async create(payload: SaveCompetenceDto): Promise<Competence> {
     const newRecord = this.repo.create(payload);
     return this.repo.save(newRecord);
   }
@@ -28,7 +28,7 @@ export class CompetencesService {
     if (result.affected === 0) throw new UnprocessableEntityException('Invalid Operation');
   }
 
-  async update(id: number, newData: CompetenceDto): Promise<Competence> {
+  async update(id: number, newData: SaveCompetenceDto): Promise<Competence> {
     const record = await this.findOne(id);
     const result = this.repo.save({ ...record, ...newData });
     if (!result) throw new UnprocessableEntityException('Invalid Operation');

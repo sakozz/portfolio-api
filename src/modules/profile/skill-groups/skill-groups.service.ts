@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import SkillGroupDto from './dto/skill-group.dto';
 import { Profile } from '../../../entities/profile.entity';
 import { SkillGroup } from '../../../entities/skill-group.entity';
 import { GroupCompetence } from '../../../entities/group-competence.entity';
-import GroupCompetenceDto from './dto/group-competence.dto';
 import { Competence } from '../../../entities/competence.entity';
+import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.dto';
+import SaveGroupCompetenceDto from '../group-competences/dto/save-group-competence.dto';
 
 @Injectable()
 export class SkillGroupsService {
@@ -22,7 +22,7 @@ export class SkillGroupsService {
     return experience;
   }
 
-  async create(groupData: SkillGroupDto, profileId: number): Promise<SkillGroup> {
+  async create(groupData: SaveProfileCompetenceGroupDto, profileId: number): Promise<SkillGroup> {
     const newRecord = this.repo.create(groupData);
     const profile = new Profile();
     profile.id = profileId;
@@ -35,7 +35,12 @@ export class SkillGroupsService {
   }
 
   async findAll(profileId: number): Promise<SkillGroup[]> {
-    return this.repo.findBy({ profile: { id: profileId } });
+    return this.repo
+      .createQueryBuilder('skillGroup')
+      .where('skillGroup.profileId = :profileId', { profileId })
+      .leftJoinAndSelect('skillGroup.competences', 'competenceGroup')
+      .leftJoinAndSelect('competenceGroup.competence', 'competence')
+      .getMany();
   }
 
   async remove(id: number): Promise<void> {
@@ -43,14 +48,14 @@ export class SkillGroupsService {
     if (result.affected === 0) throw new UnprocessableEntityException('Invalid Operation');
   }
 
-  async update(id: number, newData: SkillGroupDto): Promise<SkillGroup> {
+  async update(id: number, newData: SaveProfileCompetenceGroupDto): Promise<SkillGroup> {
     const record = await this.findOne(id);
     const result = this.repo.save({ ...record, ...newData });
     if (!result) throw new UnprocessableEntityException('Invalid Operation');
     return result;
   }
 
-  createOrSaveCompetencesList(competenceGroups: GroupCompetenceDto[]) {
+  createOrSaveCompetencesList(competenceGroups: SaveGroupCompetenceDto[]) {
     return competenceGroups.map((item) => {
       const record = this.groupCompetenceRepo.create(item);
       if (record.id) return Promise.resolve(record);

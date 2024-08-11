@@ -1,13 +1,16 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import CompetenceDto from './dto/competence.dto';
 import { CompetencesService } from './competences.service';
+import SaveCompetenceDto from './dto/save-competence.dto';
+import { Serialize } from '../../common/interceptors/serialize.interceptor';
+import CompetenceDto from './dto/competence.dto';
 
 @Controller('competences')
+@Serialize(CompetenceDto)
 export class CompetencesController {
   constructor(private service: CompetencesService) {}
 
   @Post()
-  create(@Body() body: CompetenceDto) {
+  create(@Body() body: SaveCompetenceDto) {
     return this.service.create(body);
   }
   @Get()
@@ -20,7 +23,7 @@ export class CompetencesController {
   }
 
   @Put('/:id')
-  update(@Param('id') id: string, @Body() payload: CompetenceDto) {
+  update(@Param('id') id: string, @Body() payload: SaveCompetenceDto) {
     return this.service.update(parseInt(id), payload);
   }
 

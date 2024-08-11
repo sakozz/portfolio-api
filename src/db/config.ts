@@ -11,6 +11,7 @@ export const postgresConfig = (config: ConfigService): PostgresConnectionOptions
     password: config.get('pg.password'),
     database: config.get('pg.dbName'),
     entities: [join(__dirname, '../entities/', '*.entity.{ts,js}')],
+    logging: true,
     synchronize: false,
   };
 };

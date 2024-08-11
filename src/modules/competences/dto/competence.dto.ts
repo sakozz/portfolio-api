@@ -1,14 +1,9 @@
-import { IsNotEmpty, MinLength, MaxLength, IsOptional } from 'class-validator';
-import { consts } from 'src/config/constants';
+import { Expose } from 'class-transformer';
 
 export default class CompetenceDto {
-  @IsNotEmpty()
-  @MinLength(consts.nameMinLength)
-  @MaxLength(consts.nameMaxLength)
+  @Expose()
   name: string;
 
-  @IsOptional()
-  @MinLength(consts.descriptionsMinLength)
-  @MaxLength(consts.descriptionMaxLength)
+  @Expose()
   description: string;
 }
