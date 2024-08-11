@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { SkillGroupsService } from './skill-groups.service';
+import { ProfileCompetenceGroupsService } from './profile-competence-groups.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SkillGroupsController } from './skill-groups.controller';
+import { ProfileCompetenceGroupsController } from './profile-competence-groups.controller';
 import { SkillGroup } from '../../../entities/skill-group.entity';
 import { GroupCompetence } from '../../../entities/group-competence.entity';
 import { Competence } from '../../../entities/competence.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([SkillGroup, GroupCompetence, Competence])],
-  providers: [SkillGroupsService],
-  controllers: [SkillGroupsController],
+  providers: [ProfileCompetenceGroupsService],
+  controllers: [ProfileCompetenceGroupsController],
 })
-export class SkillGroupsModule {}
+export class ProfileCompetenceGroupsModule {}

@@ -9,7 +9,7 @@ import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.d
 import SaveGroupCompetenceDto from '../group-competences/dto/save-group-competence.dto';
 
 @Injectable()
-export class SkillGroupsService {
+export class ProfileCompetenceGroupsService {
   constructor(
     @InjectRepository(SkillGroup) private repo: Repository<SkillGroup>,
     @InjectRepository(Competence) private competenceRepo: Repository<Competence>,

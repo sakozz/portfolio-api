@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { SkillGroupsService } from './skill-groups.service';
+import { ProfileCompetenceGroupsService } from './profile-competence-groups.service';
 import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.dto';
 import { Serialize } from '../../../common/interceptors/serialize.interceptor';
 import ProfileCompetenceGroupDto from './dto/profile-competence-group.dto';
 
 @Controller('profiles/:profileId/skill-groups')
 @Serialize(ProfileCompetenceGroupDto)
-export class SkillGroupsController {
-  constructor(private service: SkillGroupsService) {}
+export class ProfileCompetenceGroupsController {
+  constructor(private service: ProfileCompetenceGroupsService) {}
 
   @Post()
   create(@Body() body: SaveProfileCompetenceGroupDto, @Param('profileId') profileId: string) {
