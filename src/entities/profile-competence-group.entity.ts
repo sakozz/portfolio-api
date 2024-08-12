@@ -1,4 +1,4 @@
-import { Entity, Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, OneToMany, AfterUpdate } from 'typeorm';
 import { BasicEntity } from './base.entity';
 import { Profile } from './profile.entity';
 import { consts } from '../config/constants';
@@ -10,7 +10,9 @@ export class ProfileCompetenceGroup extends BasicEntity {
   @JoinColumn()
   profile: Profile;
 
-  @OneToMany(() => GroupCompetence, (competence) => competence.group)
+  @OneToMany(() => GroupCompetence, (competence) => competence.group, {
+    onDelete: 'CASCADE',
+  })
   competences: GroupCompetence[];
 
   @Column({ length: consts.nameMaxLength })

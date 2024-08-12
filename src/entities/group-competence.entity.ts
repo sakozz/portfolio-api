@@ -1,6 +1,6 @@
 import { Entity, Column, JoinColumn, ManyToOne, OneToOne, RelationId } from 'typeorm';
 import { BasicEntity } from './base.entity';
-import { ProfileCompetenceGroup } from './skill-group.entity';
+import { ProfileCompetenceGroup } from './profile-competence-group.entity';
 import { Competence } from './competence.entity';
 
 /* A joint table between a skill group and a competence. */

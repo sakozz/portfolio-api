@@ -3,7 +3,7 @@ import { User } from './user.entity';
 import { BasicEntity } from './base.entity';
 import { Experience } from './experience.entity';
 import { Education } from './education.entity';
-import { ProfileCompetenceGroup } from './skill-group.entity';
+import { ProfileCompetenceGroup } from './profile-competence-group.entity';
 
 @Entity()
 export class Profile extends BasicEntity {

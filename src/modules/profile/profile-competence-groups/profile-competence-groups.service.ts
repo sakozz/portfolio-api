@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, UnprocessableEntityException } from '@ne
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Profile } from '../../../entities/profile.entity';
-import { ProfileCompetenceGroup } from '../../../entities/skill-group.entity';
+import { ProfileCompetenceGroup } from '../../../entities/profile-competence-group.entity';
 import { GroupCompetence } from '../../../entities/group-competence.entity';
 import { Competence } from '../../../entities/competence.entity';
 import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.dto';
@@ -31,9 +31,7 @@ export class ProfileCompetenceGroupsService {
     profile.id = profileId;
     newRecord.profile = profile;
 
-    newRecord.competences = await Promise.all(
-      this.createOrSaveCompetencesList(groupData.competences),
-    );
+    newRecord.competences = await Promise.all(this.createCompetencesList(groupData.competences));
     return this.repo.save(newRecord);
   }
 
@@ -56,12 +54,29 @@ export class ProfileCompetenceGroupsService {
     newData: SaveProfileCompetenceGroupDto,
   ): Promise<ProfileCompetenceGroup> {
     const record = await this.findOne(id);
-    const result = this.repo.save({ ...record, ...newData });
+    const competences = await Promise.all(
+      this.createOrSaveCompetencesList(record, newData.competences),
+    );
+
+    const result = this.repo.save({ ...record, ...newData, competences });
     if (!result) throw new UnprocessableEntityException('Invalid Operation');
     return result;
   }
 
-  createOrSaveCompetencesList(competenceGroups: SaveGroupCompetenceDto[]) {
+  createOrSaveCompetencesList(
+    profileCompetenceGroup: ProfileCompetenceGroup,
+    competenceGroups: SaveGroupCompetenceDto[],
+  ) {
+    return competenceGroups.map((item) => {
+      const record = this.groupCompetenceRepo.create(item);
+      record.group = profileCompetenceGroup;
+      record.competence = this.competenceRepo.create({ id: item.competenceId });
+      if (record.id) return this.groupCompetenceRepo.update(record.id, record).then(() => record);
+      return this.groupCompetenceRepo.save(record);
+    });
+  }
+
+  createCompetencesList(competenceGroups: SaveGroupCompetenceDto[]) {
     return competenceGroups.map((item) => {
       const record = this.groupCompetenceRepo.create(item);
       if (record.id) return Promise.resolve(record);
