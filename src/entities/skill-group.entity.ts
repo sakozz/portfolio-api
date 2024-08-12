@@ -5,7 +5,7 @@ import { consts } from '../config/constants';
 import { GroupCompetence } from './group-competence.entity';
 
 @Entity()
-export class SkillGroup extends BasicEntity {
+export class ProfileCompetenceGroup extends BasicEntity {
   @ManyToOne(() => Profile, (profile) => profile.skillGroups)
   @JoinColumn()
   profile: Profile;

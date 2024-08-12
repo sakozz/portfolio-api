@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, UnprocessableEntityException } from '@ne
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Profile } from '../../../entities/profile.entity';
-import { SkillGroup } from '../../../entities/skill-group.entity';
+import { ProfileCompetenceGroup } from '../../../entities/skill-group.entity';
 import { GroupCompetence } from '../../../entities/group-competence.entity';
 import { Competence } from '../../../entities/competence.entity';
 import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.dto';
@@ -11,18 +11,21 @@ import SaveGroupCompetenceDto from '../group-competences/dto/save-group-competen
 @Injectable()
 export class ProfileCompetenceGroupsService {
   constructor(
-    @InjectRepository(SkillGroup) private repo: Repository<SkillGroup>,
+    @InjectRepository(ProfileCompetenceGroup) private repo: Repository<ProfileCompetenceGroup>,
     @InjectRepository(Competence) private competenceRepo: Repository<Competence>,
     @InjectRepository(GroupCompetence) private groupCompetenceRepo: Repository<GroupCompetence>,
   ) {}
 
-  async findOne(id: number): Promise<SkillGroup> {
-    const experience = await this.repo.findOneBy({ id });
-    if (!experience) throw new NotFoundException('Record Not found');
-    return experience;
+  async findOne(id: number): Promise<ProfileCompetenceGroup> {
+    const record = await this.repo.findOneBy({ id });
+    if (!record) throw new NotFoundException('Record Not found');
+    return record;
   }
 
-  async create(groupData: SaveProfileCompetenceGroupDto, profileId: number): Promise<SkillGroup> {
+  async create(
+    groupData: SaveProfileCompetenceGroupDto,
+    profileId: number,
+  ): Promise<ProfileCompetenceGroup> {
     const newRecord = this.repo.create(groupData);
     const profile = new Profile();
     profile.id = profileId;
@@ -34,7 +37,7 @@ export class ProfileCompetenceGroupsService {
     return this.repo.save(newRecord);
   }
 
-  async findAll(profileId: number): Promise<SkillGroup[]> {
+  async findAll(profileId: number): Promise<ProfileCompetenceGroup[]> {
     return this.repo
       .createQueryBuilder('skillGroup')
       .where('skillGroup.profileId = :profileId', { profileId })
@@ -48,7 +51,10 @@ export class ProfileCompetenceGroupsService {
     if (result.affected === 0) throw new UnprocessableEntityException('Invalid Operation');
   }
 
-  async update(id: number, newData: SaveProfileCompetenceGroupDto): Promise<SkillGroup> {
+  async update(
+    id: number,
+    newData: SaveProfileCompetenceGroupDto,
+  ): Promise<ProfileCompetenceGroup> {
     const record = await this.findOne(id);
     const result = this.repo.save({ ...record, ...newData });
     if (!result) throw new UnprocessableEntityException('Invalid Operation');

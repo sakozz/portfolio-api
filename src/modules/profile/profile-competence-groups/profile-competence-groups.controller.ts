@@ -4,7 +4,7 @@ import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.d
 import { Serialize } from '../../../common/interceptors/serialize.interceptor';
 import ProfileCompetenceGroupDto from './dto/profile-competence-group.dto';
 
-@Controller('profiles/:profileId/skill-groups')
+@Controller('profiles/:profileId/competence-groups')
 @Serialize(ProfileCompetenceGroupDto)
 export class ProfileCompetenceGroupsController {
   constructor(private service: ProfileCompetenceGroupsService) {}
