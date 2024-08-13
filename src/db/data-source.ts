@@ -20,4 +20,5 @@ const dataSourceOptions: DataSourceOptions = {
   subscribers: [],
   migrationsTableName: 'migrations_typeorm',
 };
+export default dataSourceOptions;
 export const dataSource = new DataSource(dataSourceOptions);

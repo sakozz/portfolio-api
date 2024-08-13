@@ -4,13 +4,14 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { UsersModule } from './modules/users/users.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { postgresConfig } from './db/config';
+
 import { ExperienceModule } from './modules/profile/experiences/experience.module';
 import { ProfileCompetenceGroupsModule } from './modules/profile/profile-competence-groups/profile-competence-groups.module';
 import { CompetencesModule } from './modules/competences/competences.module';
+import postgresConfig from './db/db.config';
 
 @Module({
   imports: [
@@ -25,9 +26,7 @@ import { CompetencesModule } from './modules/competences/competences.module';
       load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => postgresConfig(config),
-      inject: [ConfigService],
+      useFactory: async () => postgresConfig(),
     }),
   ],
   controllers: [AppController],
