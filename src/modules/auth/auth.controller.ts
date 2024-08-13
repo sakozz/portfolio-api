@@ -19,7 +19,6 @@ import { UserDto } from '../users/dtos/user.dto';
 import { GoogleAuthService } from './services/google-auth.service';
 import { GoogleOauthGuard } from './guards/google-auth.guard';
 import { JwtAuthGuard } from './guards/jwt.guard';
-import { Profile } from 'src/entities/profile.entity';
 import { User } from 'src/entities/user.entity';
 
 @Controller('auth')

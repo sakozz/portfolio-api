@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ProfileCompetenceGroupsService } from './profile-competence-groups.service';
 import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.dto';
 import { Serialize } from '../../../common/interceptors/serialize.interceptor';
 import ProfileCompetenceGroupDto from './dto/profile-competence-group.dto';
+import { JwtAuthGuard } from '../../auth/guards/jwt.guard';
 
 @Controller('profiles/:profileId/competence-groups')
+@UseGuards(JwtAuthGuard)
 @Serialize(ProfileCompetenceGroupDto)
 export class ProfileCompetenceGroupsController {
   constructor(private service: ProfileCompetenceGroupsService) {}

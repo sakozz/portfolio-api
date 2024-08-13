@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ExperiencesService } from './experiences.service';
 import CreateExperienceDto from './dto/create-experience.dto';
 import UpdateExperienceDto from './dto/update-experience.dto';
+import { JwtAuthGuard } from '../../auth/guards/jwt.guard';
 
 @Controller('profiles/:profileId/experiences')
+@UseGuards(JwtAuthGuard)
 export class ExperiencesController {
   constructor(private service: ExperiencesService) {}
 
