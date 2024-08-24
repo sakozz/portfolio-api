@@ -1,7 +1,8 @@
-import GroupCompetenceDto from '../../group-competences/dto/group-competence.dto';
 import { Expose, Type } from 'class-transformer';
+import GroupCompetenceDto from '../../group-competences/dto/group-competence.dto';
+import { CollectionDto } from 'src/common/types/dtos';
 
-export default class ProfileCompetenceGroupDto {
+export default class ProfileCompetenceGroupItemDto {
   @Expose()
   id: string;
 
@@ -19,4 +20,15 @@ export default class ProfileCompetenceGroupDto {
     },
   })
   competences: GroupCompetenceDto[];
+}
+
+export class ProfileCompetenceGroupCollectionDto extends CollectionDto {
+  @Expose()
+  @Type(() => ProfileCompetenceGroupItemDto, {
+    discriminator: {
+      property: '__type',
+      subTypes: [{ value: ProfileCompetenceGroupItemDto, name: 'items' }],
+    },
+  })
+  items: ProfileCompetenceGroupItemDto[];
 }

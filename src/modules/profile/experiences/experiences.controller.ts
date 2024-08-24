@@ -3,6 +3,10 @@ import { ExperiencesService } from './experiences.service';
 import CreateExperienceDto from './dto/create-experience.dto';
 import UpdateExperienceDto from './dto/update-experience.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt.guard';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+
+import ExperienceCollectionDto from './dto/experience-collection.dto';
+import ExperienceItemDto from './dto/experience-item.dto';
 
 @Controller('profiles/:profileId/experiences')
 @UseGuards(JwtAuthGuard)
@@ -15,11 +19,14 @@ export class ExperiencesController {
   }
 
   @Get()
-  getAllExperiences(@Param('profileId') profileId: string) {
-    return this.service.findAll(parseInt(profileId));
+  @Serialize(ExperienceCollectionDto)
+  async getAllExperiences(@Param('profileId') profileId: string) {
+    const result = await this.service.findAll(parseInt(profileId));
+    return { items: result, totalCount: result.length };
   }
 
   @Get(':id')
+  @Serialize(ExperienceItemDto)
   getExperienceById(@Param('id') id: string) {
     return this.service.findOne(parseInt(id));
   }

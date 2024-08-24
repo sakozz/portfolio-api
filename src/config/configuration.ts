@@ -22,6 +22,6 @@ export default () =>
       jwtSecret:
         process.env.JWT_SECRET ||
         '069f1febf713900e0eed5272f045158ad8f36051165f396fd3f282c419118523',
-      frontendCallbackUrl: 'http://localhost:4200/admin',
+      frontendCallbackUrl: 'http://localhost:4200/auth/google/sso-callback',
     },
   }) as const;

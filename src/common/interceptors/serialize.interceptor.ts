@@ -3,10 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Role } from '../types/roles';
-
-interface DtoClass {
-  new (...args: any[]);
-}
+import { DtoClass } from '../types/dtos';
 
 export function Serialize(dto: DtoClass) {
   return UseInterceptors(new SerializeInterceptor(dto));

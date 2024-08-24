@@ -1,4 +1,4 @@
-import { Entity, Column, JoinColumn, ManyToOne, OneToMany, AfterUpdate } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BasicEntity } from './base.entity';
 import { Profile } from './profile.entity';
 import { consts } from '../config/constants';
@@ -18,6 +18,6 @@ export class ProfileCompetenceGroup extends BasicEntity {
   @Column({ length: consts.nameMaxLength })
   name: string;
 
-  @Column({ length: consts.descriptionMaxLength })
+  @Column({ length: consts.descriptionMaxLength, nullable: true })
   description: string;
 }

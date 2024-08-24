@@ -4,6 +4,9 @@ export default class ProfileDto {
   id: string;
 
   @Expose()
+  role: string;
+
+  @Expose()
   email: string;
 
   @Expose()
