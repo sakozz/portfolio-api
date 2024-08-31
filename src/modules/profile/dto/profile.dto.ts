@@ -7,6 +7,9 @@ export default class ProfileDto {
   role: string;
 
   @Expose()
+  username: string;
+
+  @Expose()
   email: string;
 
   @Expose()

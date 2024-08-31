@@ -1,15 +1,21 @@
-import { Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { Profile } from 'src/entities/profile.entity';
 import { User } from 'src/entities/user.entity';
+import { ProfilesService } from 'src/modules/profile/profiles.service';
 import { Repository } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
+import CreateProfileDto from 'src/modules/profile/dto/create-profile.dto';
 
 @Injectable()
 export class GoogleAuthService {
   constructor(
     @InjectRepository(User) private repo: Repository<User>,
     @InjectRepository(Profile) private profileRepo: Repository<Profile>,
+    private configService: ConfigService,
+    private profilesService: ProfilesService,
   ) {}
 
   async revokeGoogleToken(token: string) {
@@ -24,17 +30,21 @@ export class GoogleAuthService {
     // Check if user exists and create if not.
     const user = await this.repo.findOneBy({ email });
     if (!user) {
-      const user = this.repo.create({ email: email, role: 'manager', password: accessToken });
+      const user = this.repo.create({
+        email: email,
+        role: this.configService.get('defaultUserRole'),
+        password: accessToken,
+      });
       const userResult = await this.repo.save(user);
-      const newProfile = this.profileRepo.create({
+      const profileDto = plainToInstance(CreateProfileDto, {
+        username: await this.profilesService.generateUsername([firstName, lastName].join('-')),
         email,
         firstName,
         lastName,
         avatarUrl,
       });
 
-      newProfile.user = userResult;
-      await this.profileRepo.save(newProfile);
+      await this.profilesService.create(profileDto, userResult.id);
       return user;
     }
 

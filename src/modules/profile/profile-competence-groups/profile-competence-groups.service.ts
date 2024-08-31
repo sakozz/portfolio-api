@@ -17,7 +17,13 @@ export class ProfileCompetenceGroupsService {
   ) {}
 
   async findOne(id: number): Promise<ProfileCompetenceGroup> {
-    const record = await this.repo.findOneBy({ id });
+    const record = await this.repo
+      .createQueryBuilder('profileCompetenceGroup')
+      .where('profileCompetenceGroup.id = :id', { id })
+      .leftJoinAndSelect('profileCompetenceGroup.competences', 'groupCompetences')
+      .leftJoinAndSelect('groupCompetences.competence', 'competence')
+      .getOne();
+
     if (!record) throw new NotFoundException('Record Not found');
     return record;
   }
@@ -36,12 +42,15 @@ export class ProfileCompetenceGroupsService {
   }
 
   async findAll(profileId: number): Promise<ProfileCompetenceGroup[]> {
-    return this.repo
+    return this.queryBuilderWithCompetences(this.repo, profileId).getMany();
+  }
+
+  queryBuilderWithCompetences(repo, profileId: number) {
+    return repo
       .createQueryBuilder('skillGroup')
       .where('skillGroup.profileId = :profileId', { profileId })
       .leftJoinAndSelect('skillGroup.competences', 'competenceGroup')
-      .leftJoinAndSelect('competenceGroup.competence', 'competence')
-      .getMany();
+      .leftJoinAndSelect('competenceGroup.competence', 'competence');
   }
 
   async remove(id: number): Promise<void> {
@@ -58,9 +67,9 @@ export class ProfileCompetenceGroupsService {
       this.createOrSaveCompetencesList(record, newData.competences),
     );
 
-    const result = this.repo.save({ ...record, ...newData, competences });
+    const result = await this.repo.save({ ...record, ...newData, competences });
     if (!result) throw new UnprocessableEntityException('Invalid Operation');
-    return result;
+    return this.findOne(id);
   }
 
   createOrSaveCompetencesList(

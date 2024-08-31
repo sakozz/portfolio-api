@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class InitialMigration1724426300401 implements MigrationInterface {
-    name = 'InitialMigration1724426300401'
+export class InitialMigration1724956222299 implements MigrationInterface {
+    name = 'InitialMigration1724956222299'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -58,31 +58,6 @@ export class InitialMigration1724426300401 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
-            CREATE TABLE "profile" (
-                "id" SERIAL NOT NULL,
-                "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
-                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
-                "email" character varying(100) NOT NULL,
-                "phone" character varying(16),
-                "address" character varying(1000),
-                "dateOfBirth" date,
-                "nationality" character varying,
-                "firstName" character varying(50) NOT NULL,
-                "lastName" character varying(50) NOT NULL,
-                "linkedInUrl" character varying(150),
-                "githubUrl" character varying(150),
-                "facebookUrl" character varying(150),
-                "stackoverflowUrl" character varying(150),
-                "description" character varying(3000),
-                "avatarUrl" character varying(500),
-                "deletedAt" TIMESTAMP,
-                "userId" integer,
-                CONSTRAINT "UQ_3825121222d5c17741373d8ad13" UNIQUE ("email"),
-                CONSTRAINT "REL_a24972ebd73b106250713dcddd" UNIQUE ("userId"),
-                CONSTRAINT "PK_3dd8bfc97e4a77c70971591bdcb" PRIMARY KEY ("id")
-            )
-        `);
-        await queryRunner.query(`
             CREATE TABLE "competence" (
                 "id" SERIAL NOT NULL,
                 "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
@@ -116,16 +91,39 @@ export class InitialMigration1724426300401 implements MigrationInterface {
             )
         `);
         await queryRunner.query(`
+            CREATE TABLE "profile" (
+                "id" SERIAL NOT NULL,
+                "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "email" character varying(100) NOT NULL,
+                "username" character varying(100) NOT NULL,
+                "phone" character varying(16),
+                "address" character varying(1000),
+                "dateOfBirth" date,
+                "nationality" character varying,
+                "firstName" character varying(50) NOT NULL,
+                "lastName" character varying(50) NOT NULL,
+                "linkedInUrl" character varying(150),
+                "githubUrl" character varying(150),
+                "facebookUrl" character varying(150),
+                "stackoverflowUrl" character varying(150),
+                "description" character varying(3000),
+                "avatarUrl" character varying(500),
+                "deletedAt" TIMESTAMP,
+                "userId" integer,
+                CONSTRAINT "UQ_3825121222d5c17741373d8ad13" UNIQUE ("email"),
+                CONSTRAINT "UQ_d80b94dc62f7467403009d88062" UNIQUE ("username"),
+                CONSTRAINT "REL_a24972ebd73b106250713dcddd" UNIQUE ("userId"),
+                CONSTRAINT "PK_3dd8bfc97e4a77c70971591bdcb" PRIMARY KEY ("id")
+            )
+        `);
+        await queryRunner.query(`
             ALTER TABLE "experience"
             ADD CONSTRAINT "FK_1ecc32c7c8e5618730f2730613c" FOREIGN KEY ("profileId") REFERENCES "profile"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "education"
             ADD CONSTRAINT "FK_d6ebf3bb8e04d86d532f4fb11c3" FOREIGN KEY ("profileId") REFERENCES "profile"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
-        `);
-        await queryRunner.query(`
-            ALTER TABLE "profile"
-            ADD CONSTRAINT "FK_a24972ebd73b106250713dcddd9" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "group_competence"
@@ -139,9 +137,16 @@ export class InitialMigration1724426300401 implements MigrationInterface {
             ALTER TABLE "profile_competence_group"
             ADD CONSTRAINT "FK_c4fc3cf105e5509c319c942c002" FOREIGN KEY ("profileId") REFERENCES "profile"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
         `);
+        await queryRunner.query(`
+            ALTER TABLE "profile"
+            ADD CONSTRAINT "FK_a24972ebd73b106250713dcddd9" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`
+            ALTER TABLE "profile" DROP CONSTRAINT "FK_a24972ebd73b106250713dcddd9"
+        `);
         await queryRunner.query(`
             ALTER TABLE "profile_competence_group" DROP CONSTRAINT "FK_c4fc3cf105e5509c319c942c002"
         `);
@@ -152,13 +157,13 @@ export class InitialMigration1724426300401 implements MigrationInterface {
             ALTER TABLE "group_competence" DROP CONSTRAINT "FK_93e1f502d3e8c55b33471aca9d5"
         `);
         await queryRunner.query(`
-            ALTER TABLE "profile" DROP CONSTRAINT "FK_a24972ebd73b106250713dcddd9"
-        `);
-        await queryRunner.query(`
             ALTER TABLE "education" DROP CONSTRAINT "FK_d6ebf3bb8e04d86d532f4fb11c3"
         `);
         await queryRunner.query(`
             ALTER TABLE "experience" DROP CONSTRAINT "FK_1ecc32c7c8e5618730f2730613c"
+        `);
+        await queryRunner.query(`
+            DROP TABLE "profile"
         `);
         await queryRunner.query(`
             DROP TABLE "profile_competence_group"
@@ -168,9 +173,6 @@ export class InitialMigration1724426300401 implements MigrationInterface {
         `);
         await queryRunner.query(`
             DROP TABLE "competence"
-        `);
-        await queryRunner.query(`
-            DROP TABLE "profile"
         `);
         await queryRunner.query(`
             DROP TABLE "education"

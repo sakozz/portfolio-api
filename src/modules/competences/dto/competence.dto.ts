@@ -7,10 +7,8 @@ export default class CompetenceItemDto {
 
   @Expose()
   name: string;
-
-  @Expose()
-  description: string;
 }
+
 export class CompetenceCollectionDto extends CollectionDto {
   @Expose()
   @Type(() => CompetenceItemDto, {

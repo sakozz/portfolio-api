@@ -67,7 +67,6 @@ export class AuthService {
     const jwt = this.jwtService.sign(payload);
     res.cookie(consts.cookieName, jwt, {
       expires: new Date(Date.now() + this.configService.get('auth.ttl') * 1000),
-      httpOnly: true,
     });
   }
 }

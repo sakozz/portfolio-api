@@ -17,6 +17,9 @@ export class GroupCompetence extends BasicEntity {
   @RelationId((groupCompetence: GroupCompetence) => groupCompetence.competence)
   competenceId: number;
 
+  @RelationId((groupCompetence: GroupCompetence) => groupCompetence.group)
+  groupId: number;
+
   @Column()
   level: number;
 }

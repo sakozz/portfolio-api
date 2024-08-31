@@ -12,6 +12,7 @@ import { User } from 'src/entities/user.entity';
 import { GoogleAuthService } from './services/google-auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { Profile } from 'src/entities/profile.entity';
+import { ProfilesService } from '../profile/profiles.service';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { Profile } from 'src/entities/profile.entity';
     JwtStrategy,
     GoogleStrategy,
     ConfigService,
+    ProfilesService,
   ],
 })
 export class AuthModule {}

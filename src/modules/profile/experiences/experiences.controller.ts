@@ -9,11 +9,11 @@ import ExperienceCollectionDto from './dto/experience-collection.dto';
 import ExperienceItemDto from './dto/experience-item.dto';
 
 @Controller('profiles/:profileId/experiences')
-@UseGuards(JwtAuthGuard)
 export class ExperiencesController {
   constructor(private service: ExperiencesService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() body: CreateExperienceDto, @Param('profileId') profileId: string) {
     return this.service.create(body, parseInt(profileId));
   }
@@ -32,11 +32,13 @@ export class ExperiencesController {
   }
 
   @Put('/:id')
+  @UseGuards(JwtAuthGuard)
   updateExperience(@Param('id') id: string, @Body() payload: UpdateExperienceDto) {
     return this.service.update(parseInt(id), payload);
   }
 
   @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
   delete(@Param('id') id: string) {
     return this.service.remove(parseInt(id));
   }

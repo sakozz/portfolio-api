@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import CreateProfileDto from './dto/create-profile.dto';
 import { User } from 'src/entities/user.entity';
 import UpdateProfileDto from './dto/update-profile.dto';
+import * as slug from 'slug';
 
 @Injectable()
 export class ProfilesService {
@@ -23,8 +24,8 @@ export class ProfilesService {
     return profile;
   }
 
-  async findOne(id: number): Promise<Profile> {
-    const profile = await this.repo.findOneBy({ id });
+  async findByUsername(username: string): Promise<Profile> {
+    const profile = await this.repo.findOneBy({ username });
     if (!profile) throw new NotFoundException('Profile Not found');
     return profile;
   }
@@ -46,10 +47,24 @@ export class ProfilesService {
     if (result.affected === 0) throw new UnprocessableEntityException('Invalid Operation');
   }
 
-  async update(id: number, profileData: UpdateProfileDto): Promise<Profile> {
-    const profile = await this.findOne(id);
+  async update(username: string, profileData: UpdateProfileDto): Promise<Profile> {
+    const profile = await this.findByUsername(username);
     const result = this.repo.save({ ...profile, ...profileData });
     if (!result) throw new UnprocessableEntityException('Invalid Operation');
     return result;
+  }
+
+  async generateUsername(username: string): Promise<string> {
+    let newSlug = slug(username, { replacement: '-', lower: true });
+    let profileExists = true;
+    while (profileExists) {
+      const profile = await this.repo.findOneBy({ username: newSlug });
+      profileExists = !!profile?.id;
+
+      if (profileExists) {
+        newSlug += '-1';
+      }
+    }
+    return newSlug;
   }
 }

@@ -16,6 +16,9 @@ export default class CreateProfileDto {
   email: string;
 
   @IsOptional()
+  username: string;
+
+  @IsOptional()
   phone: string;
 
   @IsOptional()

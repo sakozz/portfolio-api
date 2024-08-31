@@ -6,6 +6,7 @@ dotenv.config();
 export default () =>
   ({
     port: 3000,
+    defaultUserRole: 'candidate',
     pg: {
       dbName: process.env.POSTGRES_DB,
       username: process.env.POSTGRES_USER,
