@@ -2,8 +2,8 @@ import { NestInterceptor, ExecutionContext, CallHandler, UseInterceptors } from 
 import { plainToInstance } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Role } from '../types/roles';
-import { DtoClass } from '../types/dtos';
+import { DtoClass } from 'src/types/dtos';
+import { Role } from 'src/types/roles';
 
 export function Serialize(dto: DtoClass) {
   return UseInterceptors(new SerializeInterceptor(dto));

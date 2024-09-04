@@ -3,10 +3,9 @@ import { ExperiencesService } from './experiences.service';
 import CreateExperienceDto from './dto/create-experience.dto';
 import UpdateExperienceDto from './dto/update-experience.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt.guard';
-import { Serialize } from 'src/common/interceptors/serialize.interceptor';
-
 import ExperienceCollectionDto from './dto/experience-collection.dto';
 import ExperienceItemDto from './dto/experience-item.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 
 @Controller('profiles/:profileId/experiences')
 export class ExperiencesController {

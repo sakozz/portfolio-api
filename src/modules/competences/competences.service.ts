@@ -3,6 +3,9 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Competence } from '../../entities/competence.entity';
 import SaveCompetenceDto from './dto/save-competence.dto';
+import { BaseService } from '../base/base.service';
+import { Actions } from '../casl/casal-actions';
+import SessionUser from 'src/types/common';
 
 export type FilterParams = {
   sort?: string;
@@ -31,8 +34,9 @@ export class CompetencesService {
     return this.filteredList(this.repo, params);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number, user: SessionUser): Promise<void> {
     const result = await this.repo.delete({ id });
+
     if (result.affected === 0) throw new UnprocessableEntityException('Invalid Operation');
   }
 

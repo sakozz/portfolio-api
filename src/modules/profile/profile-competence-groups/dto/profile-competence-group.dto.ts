@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 import GroupCompetenceDto from '../../group-competences/dto/group-competence.dto';
-import { CollectionDto } from 'src/common/types/dtos';
+import { CollectionDto } from 'src/types/dtos';
 
 export default class ProfileCompetenceGroupItemDto {
   @Expose()

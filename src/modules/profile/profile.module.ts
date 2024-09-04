@@ -3,10 +3,12 @@ import { ProfileController } from './profile.controller';
 import { Profile } from 'src/entities/profile.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfilesService } from './profiles.service';
+import { ProfileAbilityCtx } from './profile.abilities';
+import { AbilitiesModule } from '../casl/casl.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Profile])],
+  imports: [TypeOrmModule.forFeature([Profile]), AbilitiesModule],
   controllers: [ProfileController],
-  providers: [ProfilesService],
+  providers: [ProfilesService, ProfileAbilityCtx],
 })
 export class ProfileModule {}

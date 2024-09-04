@@ -1,5 +1,5 @@
 import { Expose, Type } from 'class-transformer';
-import { CollectionDto } from 'src/common/types/dtos';
+import { CollectionDto } from 'src/types/dtos';
 
 export default class CompetenceItemDto {
   @Expose()

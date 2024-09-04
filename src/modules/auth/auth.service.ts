@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { consts } from 'src/config/constants';
 import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
+import SessionUser from 'src/types/common';
 
 @Injectable()
 export class AuthService {
@@ -63,7 +64,7 @@ export class AuthService {
     return { token: jwt, ...payload };
   }
 
-  setCookie(res: Response, payload: any) {
+  setCookie(res: Response, payload: SessionUser) {
     const jwt = this.jwtService.sign(payload);
     res.cookie(consts.cookieName, jwt, {
       expires: new Date(Date.now() + this.configService.get('auth.ttl') * 1000),

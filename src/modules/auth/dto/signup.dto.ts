@@ -7,8 +7,8 @@ import {
   IsEmpty,
   IsOptional,
 } from 'class-validator';
-import { Match } from 'src/common/decorators/match.decorator';
-import { Role } from 'src/common/types/roles';
+import { Match } from 'src/decorators/match.decorator';
+import { Role } from 'src/types/roles';
 import { consts } from 'src/config/constants';
 
 export class SignupDto {

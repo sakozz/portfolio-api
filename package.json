@@ -27,6 +27,7 @@
     "seed": "ts-node src/db/seeders/seed.ts"
   },
   "dependencies": {
+    "@casl/ability": "^6.7.1",
     "@faker-js/faker": "^8.4.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",

@@ -12,6 +12,9 @@ import { ExperienceModule } from './modules/profile/experiences/experience.modul
 import { ProfileCompetenceGroupsModule } from './modules/profile/profile-competence-groups/profile-competence-groups.module';
 import { CompetencesModule } from './modules/competences/competences.module';
 import postgresConfig from './db/db.config';
+import { AbilitiesGuard } from './modules/casl/abilities.guard';
+import { AbilitiesModule } from './modules/casl/casl.module';
+import { JwtAuthGuard } from './modules/auth/guards/jwt.guard';
 
 @Module({
   imports: [
@@ -28,8 +31,13 @@ import postgresConfig from './db/db.config';
     TypeOrmModule.forRootAsync({
       useFactory: async () => postgresConfig(),
     }),
+    AbilitiesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: 'APP_GUARD', useClass: JwtAuthGuard },
+    { provide: 'APP_GUARD', useClass: AbilitiesGuard },
+  ],
 })
 export class AppModule {}

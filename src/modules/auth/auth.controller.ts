@@ -5,12 +5,13 @@ import { ConfigService } from '@nestjs/config';
 import { SignupDto } from './dto/signup.dto';
 import { AuthService } from './auth.service';
 import { consts } from 'src/config/constants';
-import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 import { UserDto } from '../users/dtos/user.dto';
 import { GoogleAuthService } from './services/google-auth.service';
 import { GoogleOauthGuard } from './guards/google-auth.guard';
-import { JwtAuthGuard } from './guards/jwt.guard';
 import { User } from 'src/entities/user.entity';
+import SessionUser from 'src/types/common';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { SkipJwtAuth } from 'src/decorators/skip-jwt-auth.decorator';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -38,23 +39,23 @@ export class AuthController {
   }
 
   @Get('profile')
-  @UseGuards(JwtAuthGuard)
   status(@Req() req: Request) {
     return this.authService.profile(req.user['id']);
   }
 
   @Post('logout')
-  @UseGuards(JwtAuthGuard)
   async logout(@Res({ passthrough: true }) res: Response) {
     res.cookie(consts.cookieName, '', { expires: new Date(Date.now()) });
     return {};
   }
 
   @Get('google')
+  @SkipJwtAuth()
   @UseGuards(GoogleOauthGuard)
   googleLogin() {}
 
   @Get('google/callback')
+  @SkipJwtAuth()
   @UseGuards(GoogleOauthGuard)
   async googleLoginCallback(@Req() req: any, @Res() res: Response) {
     const user = await this.googleAuthService.validateUser(req.user);
@@ -62,12 +63,13 @@ export class AuthController {
     if (!(user instanceof User)) {
       return user;
     }
-    const payload = {
+    const payload: SessionUser = {
       authToken: req.user.accessToken,
       refreshToken: req.user.refreshToken,
       id: user.id,
+      role: user.role,
       email: user.email,
-    };
+    } as SessionUser;
 
     this.authService.setCookie(res, payload);
 

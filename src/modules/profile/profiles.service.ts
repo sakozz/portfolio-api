@@ -13,10 +13,18 @@ import CreateProfileDto from './dto/create-profile.dto';
 import { User } from 'src/entities/user.entity';
 import UpdateProfileDto from './dto/update-profile.dto';
 import * as slug from 'slug';
+import { Actions } from '../casl/casal-actions';
+import SessionUser from 'src/types/common';
+
+import { AbilityFactory } from '../casl/ability.factory';
+import { newProfileAbilityCtx } from './profile.abilities';
 
 @Injectable()
 export class ProfilesService {
-  constructor(@InjectRepository(Profile) private repo: Repository<Profile>) {}
+  constructor(
+    private abilities: AbilityFactory,
+    @InjectRepository(Profile) private repo: Repository<Profile>,
+  ) {}
 
   async findByUserId(userId: number): Promise<Profile> {
     const profile = await this.repo.findOneBy({ user: { id: userId } });
@@ -47,8 +55,14 @@ export class ProfilesService {
     if (result.affected === 0) throw new UnprocessableEntityException('Invalid Operation');
   }
 
-  async update(username: string, profileData: UpdateProfileDto): Promise<Profile> {
+  async update(
+    username: string,
+    profileData: UpdateProfileDto,
+    user: SessionUser,
+  ): Promise<Profile> {
     const profile = await this.findByUsername(username);
+    this.abilities.authorize(newProfileAbilityCtx(Actions.Update, profile, user.id));
+
     const result = this.repo.save({ ...profile, ...profileData });
     if (!result) throw new UnprocessableEntityException('Invalid Operation');
     return result;

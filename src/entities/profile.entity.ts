@@ -1,4 +1,12 @@
-import { Entity, Column, DeleteDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  DeleteDateColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+  RelationId,
+} from 'typeorm';
 import { User } from './user.entity';
 import { BasicEntity } from './base.entity';
 import { Experience } from './experience.entity';
@@ -19,6 +27,9 @@ export class Profile extends BasicEntity {
 
   @OneToMany(() => ProfileCompetenceGroup, (group) => group.profile)
   skillGroups: ProfileCompetenceGroup[];
+
+  @RelationId((profile: Profile) => profile.user)
+  userId: number;
 
   @Column({ length: 100, unique: true })
   email: string;

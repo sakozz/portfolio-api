@@ -13,6 +13,7 @@ import { GoogleAuthService } from './services/google-auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { Profile } from 'src/entities/profile.entity';
 import { ProfilesService } from '../profile/profiles.service';
+import { AbilitiesModule } from '../casl/casl.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ProfilesService } from '../profile/profiles.service';
       }),
       inject: [ConfigService],
     }),
+    AbilitiesModule,
   ],
   controllers: [AuthController],
   providers: [

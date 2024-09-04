@@ -7,10 +7,16 @@ import { GroupCompetence } from '../../../entities/group-competence.entity';
 import { Competence } from '../../../entities/competence.entity';
 import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.dto';
 import SaveGroupCompetenceDto from '../group-competences/dto/save-group-competence.dto';
+import SessionUser from 'src/types/common';
+import { Actions } from 'src/modules/casl/casal-actions';
+import { ProfileCompetenceGroupAbilityCtx } from './profile-competence-groups..ability';
+import { AbilityFactory } from 'src/modules/casl/ability.factory';
 
 @Injectable()
 export class ProfileCompetenceGroupsService {
   constructor(
+    private ability: AbilityFactory,
+    @InjectRepository(Profile) private profileRepo: Repository<Profile>,
     @InjectRepository(ProfileCompetenceGroup) private repo: Repository<ProfileCompetenceGroup>,
     @InjectRepository(Competence) private competenceRepo: Repository<Competence>,
     @InjectRepository(GroupCompetence) private groupCompetenceRepo: Repository<GroupCompetence>,
@@ -31,11 +37,18 @@ export class ProfileCompetenceGroupsService {
   async create(
     groupData: SaveProfileCompetenceGroupDto,
     profileId: number,
+    userId: number,
   ): Promise<ProfileCompetenceGroup> {
     const newRecord = this.repo.create(groupData);
-    const profile = new Profile();
-    profile.id = profileId;
+    const profile = await this.profileRepo.findOneBy({ userId: userId });
     newRecord.profile = profile;
+
+    /** profileId for Subject should be the same as id of profile of current user  */
+    this.ability.authorize({
+      action: Actions.Create,
+      subject: newRecord,
+      profileId: profileId,
+    } as ProfileCompetenceGroupAbilityCtx);
 
     newRecord.competences = await Promise.all(this.createCompetencesList(groupData.competences));
     return this.repo.save(newRecord);
@@ -61,8 +74,18 @@ export class ProfileCompetenceGroupsService {
   async update(
     id: number,
     newData: SaveProfileCompetenceGroupDto,
+    user: SessionUser,
   ): Promise<ProfileCompetenceGroup> {
     const record = await this.findOne(id);
+    const profile = await this.profileRepo.findOneBy({ userId: user.id });
+
+    /** profileId for Subject should be the same as id of profile of current user  */
+    this.ability.authorize({
+      action: Actions.Update,
+      subject: record,
+      profileId: profile.id,
+    } as ProfileCompetenceGroupAbilityCtx);
+
     const competences = await Promise.all(
       this.createOrSaveCompetencesList(record, newData.competences),
     );

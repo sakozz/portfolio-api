@@ -1,5 +1,6 @@
 import { Entity, Column, DeleteDateColumn } from 'typeorm';
 import { BasicEntity } from './base.entity';
+import { Role } from 'src/types/roles';
 
 @Entity()
 export class User extends BasicEntity {
@@ -10,7 +11,7 @@ export class User extends BasicEntity {
   password: string;
 
   @Column({ length: 50 })
-  role: string;
+  role: Role;
 
   @Column({
     default: false,
@@ -20,4 +21,8 @@ export class User extends BasicEntity {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  isAdmin() {
+    return this.role == 'admin';
+  }
 }

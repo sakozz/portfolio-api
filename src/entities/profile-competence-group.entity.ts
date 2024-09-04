@@ -1,4 +1,4 @@
-import { Entity, Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, OneToMany, RelationId } from 'typeorm';
 import { BasicEntity } from './base.entity';
 import { Profile } from './profile.entity';
 import { consts } from '../config/constants';
@@ -14,6 +14,9 @@ export class ProfileCompetenceGroup extends BasicEntity {
     onDelete: 'CASCADE',
   })
   competences: GroupCompetence[];
+
+  @RelationId((profileCompetenceGroup: ProfileCompetenceGroup) => profileCompetenceGroup.profile)
+  profileId: number;
 
   @Column({ length: consts.nameMaxLength })
   name: string;
