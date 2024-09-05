@@ -9,13 +9,13 @@ import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.d
 import SaveGroupCompetenceDto from '../group-competences/dto/save-group-competence.dto';
 import SessionUser from 'src/types/common';
 import { Actions } from 'src/modules/casl/casal-actions';
-import { ProfileCompetenceGroupAbilityCtx } from './profile-competence-groups..ability';
+import { newProfileCompetenceGroupAbilityCtx } from './profile-competence-groups..ability';
 import { AbilityFactory } from 'src/modules/casl/ability.factory';
 
 @Injectable()
 export class ProfileCompetenceGroupsService {
   constructor(
-    private ability: AbilityFactory,
+    private abilities: AbilityFactory,
     @InjectRepository(Profile) private profileRepo: Repository<Profile>,
     @InjectRepository(ProfileCompetenceGroup) private repo: Repository<ProfileCompetenceGroup>,
     @InjectRepository(Competence) private competenceRepo: Repository<Competence>,
@@ -40,16 +40,17 @@ export class ProfileCompetenceGroupsService {
     userId: number,
   ): Promise<ProfileCompetenceGroup> {
     const newRecord = this.repo.create(groupData);
-    const profile = await this.profileRepo.findOneBy({ userId: userId });
-    newRecord.profile = profile;
+    const currentUserProfile = await this.profileRepo.findOneBy({ user: { id: userId } });
+    newRecord.profileId = profileId;
 
     /** profileId for Subject should be the same as id of profile of current user  */
-    this.ability.authorize({
-      action: Actions.Create,
-      subject: newRecord,
-      profileId: profileId,
-    } as ProfileCompetenceGroupAbilityCtx);
+    this.abilities.authorize(
+      newProfileCompetenceGroupAbilityCtx(Actions.Create, newRecord, currentUserProfile.id),
+    );
 
+    const profileFromParams = new Profile();
+    profileFromParams.id = profileId;
+    newRecord.profile = profileFromParams;
     newRecord.competences = await Promise.all(this.createCompetencesList(groupData.competences));
     return this.repo.save(newRecord);
   }
@@ -66,7 +67,15 @@ export class ProfileCompetenceGroupsService {
       .leftJoinAndSelect('competenceGroup.competence', 'competence');
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number, userId: number): Promise<void> {
+    const record = await this.findOne(id);
+    const profile = await this.profileRepo.findOneBy({ user: { id: userId } });
+
+    /** profileId for Subject should be the same as id of profile of current user  */
+    this.abilities.authorize(
+      newProfileCompetenceGroupAbilityCtx(Actions.Delete, record, profile.id),
+    );
+
     const result = await this.repo.delete({ id });
     if (result.affected === 0) throw new UnprocessableEntityException('Invalid Operation');
   }
@@ -77,14 +86,12 @@ export class ProfileCompetenceGroupsService {
     user: SessionUser,
   ): Promise<ProfileCompetenceGroup> {
     const record = await this.findOne(id);
-    const profile = await this.profileRepo.findOneBy({ userId: user.id });
+    const profile = await this.profileRepo.findOneBy({ user: { id: user.id } });
 
     /** profileId for Subject should be the same as id of profile of current user  */
-    this.ability.authorize({
-      action: Actions.Update,
-      subject: record,
-      profileId: profile.id,
-    } as ProfileCompetenceGroupAbilityCtx);
+    this.abilities.authorize(
+      newProfileCompetenceGroupAbilityCtx(Actions.Update, record, profile.id),
+    );
 
     const competences = await Promise.all(
       this.createOrSaveCompetencesList(record, newData.competences),

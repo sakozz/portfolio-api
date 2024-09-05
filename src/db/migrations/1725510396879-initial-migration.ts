@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class InitialMigration1724956222299 implements MigrationInterface {
-    name = 'InitialMigration1724956222299'
+export class InitialMigration1725510396879 implements MigrationInterface {
+    name = 'InitialMigration1725510396879'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -127,7 +127,7 @@ export class InitialMigration1724956222299 implements MigrationInterface {
         `);
         await queryRunner.query(`
             ALTER TABLE "group_competence"
-            ADD CONSTRAINT "FK_93e1f502d3e8c55b33471aca9d5" FOREIGN KEY ("groupId") REFERENCES "profile_competence_group"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+            ADD CONSTRAINT "FK_93e1f502d3e8c55b33471aca9d5" FOREIGN KEY ("groupId") REFERENCES "profile_competence_group"("id") ON DELETE CASCADE ON UPDATE NO ACTION
         `);
         await queryRunner.query(`
             ALTER TABLE "group_competence"

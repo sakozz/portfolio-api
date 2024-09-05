@@ -10,14 +10,14 @@ import SessionUser from 'src/types/common';
 import { Require } from 'src/modules/casl/abilities.decorator';
 
 import { Actions } from 'src/modules/casl/casal-actions';
-import { AbilityFactory } from 'src/modules/casl/ability.factory';
+import { profileCompetenceGroupAbilityFactory } from './profile-competence-groups..ability';
 
 @Controller('profiles/:profileId/competence-groups')
 export class ProfileCompetenceGroupsController {
   constructor(private service: ProfileCompetenceGroupsService) {}
 
   @Post()
-  @Require(new AbilityFactory({ action: Actions.Create }))
+  // Authorize implemented in service level
   @Serialize(ProfileCompetenceGroupItemDto)
   create(
     @Body() body: SaveProfileCompetenceGroupDto,
@@ -28,6 +28,7 @@ export class ProfileCompetenceGroupsController {
   }
 
   @Get()
+  @Require(profileCompetenceGroupAbilityFactory(Actions.Access))
   @Serialize(ProfileCompetenceGroupCollectionDto)
   async getByProfileId(@Param('profileId') profileId: string) {
     const result = await this.service.findAll(parseInt(profileId));
@@ -35,12 +36,14 @@ export class ProfileCompetenceGroupsController {
   }
 
   @Get(':id')
+  @Require(profileCompetenceGroupAbilityFactory(Actions.Access))
   @Serialize(ProfileCompetenceGroupItemDto)
   getById(@Param('id') id: string) {
     return this.service.findOne(parseInt(id));
   }
 
   @Put('/:id')
+  // Authorize implemented in service level
   @Serialize(ProfileCompetenceGroupItemDto)
   update(
     @Param('id') id: string,
@@ -51,7 +54,8 @@ export class ProfileCompetenceGroupsController {
   }
 
   @Delete('/:id')
-  delete(@Param('id') id: string) {
-    return this.service.remove(parseInt(id));
+  // Authorize implemented in service level
+  delete(@Param('id') id: string, @CurrentUser('id') userId: number) {
+    return this.service.remove(parseInt(id), userId);
   }
 }

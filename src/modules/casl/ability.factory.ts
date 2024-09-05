@@ -4,8 +4,8 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Actions, Subjects } from './casal-actions';
 import SessionUser from 'src/types/common';
 import {
+  profileCompetenceGroupAbilities,
   ProfileCompetenceGroupAbilityCtx,
-  profileCompetenceGroupAbilityFactory,
 } from '../profile/profile-competence-groups/profile-competence-groups..ability';
 import { EntityAbilities } from './abilities.decorator';
 import { profileAbilities, ProfileAbilityCtx } from '../profile/profile.abilities';
@@ -29,7 +29,7 @@ export class AbilityFactory implements EntityAbilities {
 
   defineAbilities(user?: SessionUser): AppAbility {
     if (this.ctx && this.ctx instanceof ProfileCompetenceGroupAbilityCtx) {
-      return profileCompetenceGroupAbilityFactory(this.ctx, user);
+      return profileCompetenceGroupAbilities(this.ctx, user);
     }
 
     if (this.ctx && this.ctx instanceof ProfileAbilityCtx) {

@@ -6,7 +6,10 @@ import { Competence } from './competence.entity';
 /* A joint table between a skill group and a competence. */
 @Entity()
 export class GroupCompetence extends BasicEntity {
-  @ManyToOne(() => ProfileCompetenceGroup, (group) => group.competences)
+  @ManyToOne(() => ProfileCompetenceGroup, (group) => group.competences, {
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
   @JoinColumn()
   group: ProfileCompetenceGroup;
 

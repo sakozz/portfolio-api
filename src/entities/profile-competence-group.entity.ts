@@ -10,9 +10,7 @@ export class ProfileCompetenceGroup extends BasicEntity {
   @JoinColumn()
   profile: Profile;
 
-  @OneToMany(() => GroupCompetence, (competence) => competence.group, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => GroupCompetence, (competence) => competence.group)
   competences: GroupCompetence[];
 
   @RelationId((profileCompetenceGroup: ProfileCompetenceGroup) => profileCompetenceGroup.profile)
