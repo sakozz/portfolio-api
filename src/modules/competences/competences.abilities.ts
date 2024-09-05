@@ -1,48 +1,46 @@
-import { AbilityBuilder, createMongoAbility, MongoQuery } from '@casl/ability';
+import { AbilityBuilder, createMongoAbility } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
-import { Profile } from 'src/entities/profile.entity';
 
 import { Actions } from '../abilities/abilities.actions';
 import { AbilityCtx, AbilityFactory, AppAbility } from '../abilities/ability.factory';
-
 import SessionUser from 'src/types/common';
-
 import { Subjects } from 'src/modules/abilities/abilities.actions';
+import { Competence } from 'src/entities/competence.entity';
 
 @Injectable()
-export class ProfileAbilityCtx implements AbilityCtx {
+export class CompetencesAbilityCtx implements AbilityCtx {
   action: Actions;
-  subject?: Subjects = Profile;
+  subject?: Subjects = Competence;
   userId?: number;
 }
 
 /** Use this function to avoid injecting Types and interfaces to constructor. Because DI will complain when used with constructor */
-export const newProfileAbilityCtx = (action: Actions, subject: Subjects, userId: number) => {
-  const ctx = new ProfileAbilityCtx();
+export const newCompetencesAbilityCtx = (action: Actions, subject: Subjects) => {
+  const ctx = new CompetencesAbilityCtx();
   ctx.action = action;
   ctx.subject = subject;
-  ctx.userId = userId;
   return ctx;
 };
 
-export function profileAbilityFactory(
+export function competencesAbilityFactory(
   action: Actions,
-  subject: Subjects = Profile,
-  userId?: number,
+  subject: Subjects = Competence,
 ): AbilityFactory {
-  const ctx = newProfileAbilityCtx(action, subject, userId);
+  const ctx = newCompetencesAbilityCtx(action, subject);
   return new AbilityFactory(ctx);
 }
 
-export function profileAbilities(ctx: ProfileAbilityCtx, user?: SessionUser): AppAbility {
+export function competenceAbilities(ctx: CompetencesAbilityCtx, user?: SessionUser): AppAbility {
   const { can, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
 
   if (user && user?.isAdmin()) {
     can(Actions.Manage, 'all');
   }
-
-  can(Actions.Access, Profile);
-  can(Actions.Update, Profile, { userId: { $eq: ctx.userId } } as MongoQuery<Profile>);
+  can(Actions.AccessCollection, Competence);
+  // Create: Only admin can create
+  // Update: Only admin can update
+  // Access: Only admin can access Item
+  // Delete: Only admin can delete Item
 
   return build();
 }

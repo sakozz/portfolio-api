@@ -13,10 +13,10 @@ import CreateProfileDto from './dto/create-profile.dto';
 import { User } from 'src/entities/user.entity';
 import UpdateProfileDto from './dto/update-profile.dto';
 import * as slug from 'slug';
-import { Actions } from '../casl/casal-actions';
+import { Actions } from '../abilities/abilities.actions';
 import SessionUser from 'src/types/common';
 
-import { AbilityFactory } from '../casl/ability.factory';
+import { AbilityFactory } from '../abilities/ability.factory';
 import { newProfileAbilityCtx } from './profile.abilities';
 
 @Injectable()

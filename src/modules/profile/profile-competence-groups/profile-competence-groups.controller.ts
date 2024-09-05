@@ -7,9 +7,9 @@ import ProfileCompetenceGroupItemDto, {
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import SessionUser from 'src/types/common';
-import { Require } from 'src/modules/casl/abilities.decorator';
+import { Require } from 'src/modules/abilities/abilities.decorator';
 
-import { Actions } from 'src/modules/casl/casal-actions';
+import { Actions } from 'src/modules/abilities/abilities.actions';
 import { profileCompetenceGroupAbilityFactory } from './profile-competence-groups..ability';
 
 @Controller('profiles/:profileId/competence-groups')

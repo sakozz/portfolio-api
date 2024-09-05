@@ -1,8 +1,6 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-
 import { ENTITY_ABILITIES, EntityAbilities } from './abilities.decorator';
-import { ForbiddenError } from '@casl/ability';
 
 @Injectable()
 export class AbilitiesGuard implements CanActivate {
@@ -19,11 +17,10 @@ export class AbilitiesGuard implements CanActivate {
     const { user } = context.switchToHttp().getRequest();
     const ability = entityAbilities.defineAbilities(user);
 
-    try {
-      ForbiddenError.from(ability).throwUnlessCan(entityAbilities.action, entityAbilities.subject);
-      return true;
-    } catch (e) {
-      return false;
+    const permitted = ability.can(entityAbilities.action, entityAbilities.subject);
+    if (!permitted) {
+      throw new ForbiddenException('You are not authorized to perform this action');
     }
+    return true;
   }
 }

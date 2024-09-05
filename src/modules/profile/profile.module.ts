@@ -4,7 +4,7 @@ import { Profile } from 'src/entities/profile.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfilesService } from './profiles.service';
 import { ProfileAbilityCtx } from './profile.abilities';
-import { AbilitiesModule } from '../casl/casl.module';
+import { AbilitiesModule } from '../abilities/abilities.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Profile]), AbilitiesModule],

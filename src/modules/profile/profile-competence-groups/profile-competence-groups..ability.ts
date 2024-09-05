@@ -2,9 +2,9 @@ import { AbilityBuilder, createMongoAbility, MongoQuery } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
 import SessionUser from 'src/types/common';
 import { ProfileCompetenceGroup } from 'src/entities/profile-competence-group.entity';
-import { Actions, Subjects } from 'src/modules/casl/casal-actions';
+import { Actions, Subjects } from 'src/modules/abilities/abilities.actions';
 
-import { AbilityCtx, AbilityFactory, AppAbility } from 'src/modules/casl/ability.factory';
+import { AbilityCtx, AbilityFactory, AppAbility } from 'src/modules/abilities/ability.factory';
 
 @Injectable()
 export class ProfileCompetenceGroupAbilityCtx implements AbilityCtx {

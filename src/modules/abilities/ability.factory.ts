@@ -1,7 +1,7 @@
 import { MongoAbility } from '@casl/ability';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
-import { Actions, Subjects } from './casal-actions';
+import { Actions, Subjects } from './abilities.actions';
 import SessionUser from 'src/types/common';
 import {
   profileCompetenceGroupAbilities,
@@ -9,6 +9,7 @@ import {
 } from '../profile/profile-competence-groups/profile-competence-groups..ability';
 import { EntityAbilities } from './abilities.decorator';
 import { profileAbilities, ProfileAbilityCtx } from '../profile/profile.abilities';
+import { competenceAbilities, CompetencesAbilityCtx } from '../competences/competences.abilities';
 
 export type AppAbility = MongoAbility<[Actions, Subjects]>;
 
@@ -34,6 +35,10 @@ export class AbilityFactory implements EntityAbilities {
 
     if (this.ctx && this.ctx instanceof ProfileAbilityCtx) {
       return profileAbilities(this.ctx, user);
+    }
+
+    if (this.ctx && this.ctx instanceof CompetencesAbilityCtx) {
+      return competenceAbilities(this.ctx, user);
     }
   }
 

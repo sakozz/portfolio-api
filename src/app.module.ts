@@ -12,8 +12,8 @@ import { ExperienceModule } from './modules/profile/experiences/experience.modul
 import { ProfileCompetenceGroupsModule } from './modules/profile/profile-competence-groups/profile-competence-groups.module';
 import { CompetencesModule } from './modules/competences/competences.module';
 import postgresConfig from './db/db.config';
-import { AbilitiesGuard } from './modules/casl/abilities.guard';
-import { AbilitiesModule } from './modules/casl/casl.module';
+import { AbilitiesGuard } from './modules/abilities/abilities.guard';
+import { AbilitiesModule } from './modules/abilities/abilities.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt.guard';
 
 @Module({

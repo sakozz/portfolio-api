@@ -1,4 +1,4 @@
-import { Actions, Subjects } from './casal-actions';
+import { Actions, Subjects } from './abilities.actions';
 import { SetMetadata } from '@nestjs/common';
 import { AppAbility } from './ability.factory';
 import SessionUser from 'src/types/common';

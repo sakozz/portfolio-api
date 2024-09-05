@@ -13,7 +13,7 @@ import { GoogleAuthService } from './services/google-auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { Profile } from 'src/entities/profile.entity';
 import { ProfilesService } from '../profile/profiles.service';
-import { AbilitiesModule } from '../casl/casl.module';
+import { AbilitiesModule } from '../abilities/abilities.module';
 
 @Module({
   imports: [

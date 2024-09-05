@@ -8,9 +8,9 @@ import { Competence } from '../../../entities/competence.entity';
 import SaveProfileCompetenceGroupDto from './dto/save-profile-competence-group.dto';
 import SaveGroupCompetenceDto from '../group-competences/dto/save-group-competence.dto';
 import SessionUser from 'src/types/common';
-import { Actions } from 'src/modules/casl/casal-actions';
+import { Actions } from 'src/modules/abilities/abilities.actions';
 import { newProfileCompetenceGroupAbilityCtx } from './profile-competence-groups..ability';
-import { AbilityFactory } from 'src/modules/casl/ability.factory';
+import { AbilityFactory } from 'src/modules/abilities/ability.factory';
 
 @Injectable()
 export class ProfileCompetenceGroupsService {
