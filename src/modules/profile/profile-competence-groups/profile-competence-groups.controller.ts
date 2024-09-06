@@ -11,6 +11,7 @@ import { Require } from 'src/modules/abilities/abilities.decorator';
 
 import { Actions } from 'src/modules/abilities/abilities.actions';
 import { profileCompetenceGroupAbilityFactory } from './profile-competence-groups..ability';
+import { SkipJwtAuth } from 'src/decorators/skip-jwt-auth.decorator';
 
 @Controller('profiles/:profileId/competence-groups')
 export class ProfileCompetenceGroupsController {
@@ -28,6 +29,7 @@ export class ProfileCompetenceGroupsController {
   }
 
   @Get()
+  @SkipJwtAuth()
   @Require(profileCompetenceGroupAbilityFactory(Actions.Access))
   @Serialize(ProfileCompetenceGroupCollectionDto)
   async getByProfileId(@Param('profileId') profileId: string) {

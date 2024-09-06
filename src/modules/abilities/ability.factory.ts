@@ -10,6 +10,10 @@ import {
 import { EntityAbilities } from './abilities.decorator';
 import { profileAbilities, ProfileAbilityCtx } from '../profile/profile.abilities';
 import { competenceAbilities, CompetencesAbilityCtx } from '../competences/competences.abilities';
+import {
+  experiencesAbilities,
+  ExperiencesAbilityCtx,
+} from '../profile/experiences/experiences.abilities';
 
 export type AppAbility = MongoAbility<[Actions, Subjects]>;
 
@@ -39,6 +43,10 @@ export class AbilityFactory implements EntityAbilities {
 
     if (this.ctx && this.ctx instanceof CompetencesAbilityCtx) {
       return competenceAbilities(this.ctx, user);
+    }
+
+    if (this.ctx && this.ctx instanceof ExperiencesAbilityCtx) {
+      return experiencesAbilities(this.ctx, user);
     }
   }
 

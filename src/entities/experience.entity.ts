@@ -1,4 +1,4 @@
-import { Entity, Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, RelationId } from 'typeorm';
 import { BasicEntity } from './base.entity';
 import { Profile } from './profile.entity';
 import { consts } from '../config/constants';
@@ -8,6 +8,9 @@ export class Experience extends BasicEntity {
   @ManyToOne(() => Profile, (profile) => profile.experiences)
   @JoinColumn()
   profile: Profile;
+
+  @RelationId((experience: Experience) => experience.profile)
+  profileId: number;
 
   @Column({ length: consts.nameMaxLength })
   jobTitle: string;
