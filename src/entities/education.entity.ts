@@ -1,13 +1,16 @@
-import { Entity, JoinColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, JoinColumn, Column, ManyToOne, RelationId } from 'typeorm';
 import { BasicEntity } from './base.entity';
 import { Profile } from './profile.entity';
 import { consts } from '../config/constants';
 
 @Entity()
 export class Education extends BasicEntity {
-  @ManyToOne(() => Profile, (profile) => profile.educations)
+  @ManyToOne(() => Profile, (profile) => profile.education)
   @JoinColumn()
   profile: Profile;
+
+  @RelationId((education: Education) => education.profile)
+  profileId: number;
 
   @Column({ length: consts.nameMaxLength })
   degreeProgram: string;
@@ -19,11 +22,11 @@ export class Education extends BasicEntity {
   link: string;
 
   @Column({ type: 'date' })
-  startDate: boolean;
+  startDate: string;
 
   @Column({ type: 'date', nullable: true })
-  endDate: boolean;
+  endDate: string;
 
   @Column({ type: 'boolean', nullable: true, default: false })
-  isCurrent: boolean;
+  completed: boolean;
 }

@@ -23,7 +23,7 @@ export class Profile extends BasicEntity {
   experiences: Experience[];
 
   @OneToMany(() => Education, (education) => education.profile)
-  educations: Education[];
+  education: Education[];
 
   @OneToMany(() => ProfileCompetenceGroup, (group) => group.profile)
   skillGroups: ProfileCompetenceGroup[];

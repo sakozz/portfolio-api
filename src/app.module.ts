@@ -16,6 +16,7 @@ import { AbilitiesGuard } from './modules/abilities/abilities.guard';
 import { AbilitiesModule } from './modules/abilities/abilities.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt.guard';
 import { ProjectsModule } from './modules/profile/projects/projects.module';
+import { EducationModule } from './modules/profile/education/education.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProjectsModule } from './modules/profile/projects/projects.module';
     ProfileModule,
     ExperienceModule,
     ProjectsModule,
+    EducationModule,
     ProfileCompetenceGroupsModule,
     CompetencesModule,
     ConfigModule.forRoot({

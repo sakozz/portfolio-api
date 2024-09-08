@@ -1,12 +1,8 @@
-import { MinLength, MaxLength, IsUrl, IsOptional, IsEmail, IsDate } from 'class-validator';
+import { MinLength, MaxLength, IsUrl, IsOptional, IsDate } from 'class-validator';
 import { consts } from 'src/config/constants';
 import { Transform } from 'class-transformer';
 
 export default class UpdateProfileDto {
-  @IsOptional()
-  @IsEmail()
-  email: string;
-
   @IsOptional()
   username: string;
 
