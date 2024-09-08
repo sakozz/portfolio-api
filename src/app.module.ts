@@ -15,6 +15,7 @@ import postgresConfig from './db/db.config';
 import { AbilitiesGuard } from './modules/abilities/abilities.guard';
 import { AbilitiesModule } from './modules/abilities/abilities.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt.guard';
+import { ProjectsModule } from './modules/profile/projects/projects.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt.guard';
     UsersModule,
     ProfileModule,
     ExperienceModule,
+    ProjectsModule,
     ProfileCompetenceGroupsModule,
     CompetencesModule,
     ConfigModule.forRoot({

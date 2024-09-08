@@ -7,6 +7,7 @@ import { ProfileCompetenceGroup } from 'src/entities/profile-competence-group.en
 import { Profile } from 'src/entities/profile.entity';
 import { User } from 'src/entities/user.entity';
 import SessionUser from 'src/types/common';
+import { Project } from '../../entities/project.entity';
 
 export enum Actions {
   Manage = 'manage',
@@ -24,6 +25,7 @@ export type Subjects =
       | typeof Competence
       | typeof Education
       | typeof Experience
+      | typeof Project
       | typeof GroupCompetence
       | typeof ProfileCompetenceGroup
       | typeof SessionUser
