@@ -3,13 +3,13 @@ import {
   MinLength,
   MaxLength,
   IsUrl,
-  IsOptional,
   IsDate,
   IsBoolean,
   ValidateIf,
 } from 'class-validator';
 import { consts } from 'src/config/constants';
 import { Transform } from 'class-transformer';
+import { IsOptionalOrEmpty } from 'src/decorators/optional.decorator';
 
 export default class UpdateExperienceDto {
   @IsNotEmpty()
@@ -38,11 +38,11 @@ export default class UpdateExperienceDto {
   @IsDate()
   endDate: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsBoolean()
   isCurrent: boolean;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
   @MaxLength(consts.linkMaxLength)
   link: string;

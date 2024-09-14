@@ -29,6 +29,7 @@ export class GoogleAuthService {
   async validateUser({ email, firstName, lastName, avatarUrl, accessToken }): Promise<User> {
     // Check if user exists and create if not.
     const user = await this.repo.findOneBy({ email });
+    const username = await this.profilesService.generateUsername([firstName, lastName].join('-'));
     if (!user) {
       const user = this.repo.create({
         email: email,
@@ -37,28 +38,42 @@ export class GoogleAuthService {
       });
       const userResult = await this.repo.save(user);
       const profileDto = plainToInstance(CreateProfileDto, {
-        username: await this.profilesService.generateUsername([firstName, lastName].join('-')),
+        username: username,
         email,
         firstName,
         lastName,
         avatarUrl,
+        role: user.role,
       });
 
       await this.profilesService.create(profileDto, userResult.id);
       return user;
     }
 
-    // If user exists, create or update the profile with new information.
+    // If user exists, create or update only the profile with new information.
     const profile = await this.profileRepo.findOneBy({ email });
     if (profile) {
-      await this.profileRepo.update(user.id, { firstName, lastName, avatarUrl });
+      await this.profileRepo.update(user.id, {
+        firstName,
+        lastName,
+        avatarUrl,
+      });
       return user;
     }
 
-    const newProfile = this.profileRepo.create({ email, firstName, lastName, avatarUrl });
+    const newProfile = this.profileRepo.create({
+      email,
+      firstName,
+      lastName,
+      avatarUrl,
+      username,
+      jobTitle: 'Candidate',
+      user: user,
+      role: user.role,
+    });
     const profileResult = await this.profileRepo.save(newProfile);
 
-    if (profileResult) {
+    if (!profileResult) {
       throw new UnprocessableEntityException('Failed to create user profile');
     }
 

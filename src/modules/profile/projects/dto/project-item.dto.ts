@@ -7,6 +7,9 @@ export default class ProjectItemDto {
   id: number;
 
   @Expose()
+  profileId: number;
+
+  @Expose()
   name: string;
 
   @Expose()

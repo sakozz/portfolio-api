@@ -3,13 +3,13 @@ import {
   MinLength,
   MaxLength,
   IsUrl,
-  IsOptional,
   IsDate,
   IsBoolean,
   ValidateIf,
 } from 'class-validator';
 import { consts } from 'src/config/constants';
 import { Transform } from 'class-transformer';
+import { IsOptionalOrEmpty } from 'src/decorators/optional.decorator';
 
 export default class CreateEducationDto {
   @IsNotEmpty()
@@ -22,7 +22,7 @@ export default class CreateEducationDto {
   @MaxLength(consts.nameMaxLength)
   university: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
   @MaxLength(consts.linkMaxLength)
   link: string;
@@ -38,7 +38,7 @@ export default class CreateEducationDto {
   @IsDate()
   endDate: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsBoolean()
   completed: boolean;
 }

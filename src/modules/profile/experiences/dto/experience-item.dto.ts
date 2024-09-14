@@ -7,6 +7,9 @@ export default class ExperienceItemDto {
   id: number;
 
   @Expose()
+  profileId: number;
+
+  @Expose()
   jobTitle: string;
 
   @Expose()

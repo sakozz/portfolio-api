@@ -1,5 +1,6 @@
-import { IsNotEmpty, MinLength, MaxLength, IsOptional } from 'class-validator';
+import { IsNotEmpty, MinLength, MaxLength } from 'class-validator';
 import { consts } from 'src/config/constants';
+import { IsOptionalOrEmpty } from 'src/decorators/optional.decorator';
 
 export default class SaveCompetenceDto {
   @IsNotEmpty()
@@ -7,7 +8,7 @@ export default class SaveCompetenceDto {
   @MaxLength(consts.nameMaxLength)
   name: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @MinLength(consts.descriptionsMinLength)
   @MaxLength(consts.descriptionMaxLength)
   description: string;

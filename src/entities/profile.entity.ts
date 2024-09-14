@@ -12,6 +12,7 @@ import { BasicEntity } from './base.entity';
 import { Experience } from './experience.entity';
 import { Education } from './education.entity';
 import { ProfileCompetenceGroup } from './profile-competence-group.entity';
+import { Role } from 'src/types/roles';
 
 @Entity()
 export class Profile extends BasicEntity {
@@ -30,6 +31,12 @@ export class Profile extends BasicEntity {
 
   @RelationId((profile: Profile) => profile.user)
   userId: number;
+
+  @Column({ length: 50 })
+  role: Role;
+
+  @Column({ length: 100 })
+  jobTitle: string;
 
   @Column({ length: 100, unique: true })
   email: string;

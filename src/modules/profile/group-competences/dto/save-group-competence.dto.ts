@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsInt, Max, Min, IsOptional, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsInt, Max, Min, IsBoolean } from 'class-validator';
+import { IsOptionalOrEmpty } from 'src/decorators/optional.decorator';
 
 export default class SaveGroupCompetenceDto {
   @IsNotEmpty()
@@ -10,7 +11,7 @@ export default class SaveGroupCompetenceDto {
   @Min(1)
   level: number;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsBoolean()
   isDeleted: boolean;
 }

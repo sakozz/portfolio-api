@@ -1,35 +1,35 @@
-import {
-  IsNotEmpty,
-  MinLength,
-  MaxLength,
-  IsUrl,
-  IsOptional,
-  IsEmail,
-  IsDate,
-} from 'class-validator';
+import { IsNotEmpty, MinLength, MaxLength, IsUrl, IsEmail, IsDate } from 'class-validator';
 import { consts } from 'src/config/constants';
 import { Transform } from 'class-transformer';
+import { Role } from 'src/types/roles';
+import { IsOptionalOrEmpty } from 'src/decorators/optional.decorator';
 
 export default class CreateProfileDto {
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsEmail()
   email: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   username: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
+  jobTitle: string;
+
+  @IsNotEmpty()
+  role: Role;
+
+  @IsOptionalOrEmpty()
   phone: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   address: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @Transform(({ value }) => new Date(value), { toClassOnly: true })
   @IsDate()
   dateOfBirth: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   nationality: string;
 
   @IsNotEmpty()
@@ -38,16 +38,19 @@ export default class CreateProfileDto {
   @IsNotEmpty()
   lastName: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
+  @MaxLength(consts.linkMaxLength)
   linkedInUrl: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
+  @MaxLength(consts.linkMaxLength)
   githubUrl: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
+  @MaxLength(consts.linkMaxLength)
   stackoverflowUrl: string;
 
   @IsNotEmpty()

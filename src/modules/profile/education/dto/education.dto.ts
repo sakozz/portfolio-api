@@ -3,6 +3,9 @@ import { CollectionDto, ItemDto } from '../../../../types/dtos';
 
 export default class EducationItemDto extends ItemDto {
   @Expose()
+  profileId: number;
+
+  @Expose()
   degreeProgram: string;
 
   @Expose()

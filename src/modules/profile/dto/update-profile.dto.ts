@@ -1,44 +1,51 @@
-import { MinLength, MaxLength, IsUrl, IsOptional, IsDate } from 'class-validator';
+import { MinLength, MaxLength, IsUrl, IsDate } from 'class-validator';
 import { consts } from 'src/config/constants';
 import { Transform } from 'class-transformer';
+import { IsOptionalOrEmpty } from 'src/decorators/optional.decorator';
 
 export default class UpdateProfileDto {
-  @IsOptional()
+  @IsOptionalOrEmpty()
   username: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   phone: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
+  jobTitle: string;
+
+  @IsOptionalOrEmpty()
   address: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @Transform(({ value }) => new Date(value), { toClassOnly: true })
   @IsDate()
   dateOfBirth: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   nationality: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   firstName: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   lastName: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
+  @MaxLength(consts.linkMaxLength)
   linkedInUrl: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
+  @MaxLength(consts.linkMaxLength)
   githubUrl: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @IsUrl()
+  @MaxLength(consts.linkMaxLength)
   stackoverflowUrl: string;
 
-  @IsOptional()
+  @IsOptionalOrEmpty()
   @MinLength(consts.descriptionsMinLength)
   @MaxLength(consts.descriptionMaxLength)
   description: string;

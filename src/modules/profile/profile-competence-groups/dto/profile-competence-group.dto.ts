@@ -7,6 +7,9 @@ export default class ProfileCompetenceGroupItemDto {
   id: string;
 
   @Expose()
+  profileId: string;
+
+  @Expose()
   name: string;
 
   @Expose()
