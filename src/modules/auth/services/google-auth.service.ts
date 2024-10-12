@@ -8,12 +8,14 @@ import { ProfilesService } from 'src/modules/profile/profiles.service';
 import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import CreateProfileDto from 'src/modules/profile/dto/create-profile.dto';
+import { InvitationsService } from 'src/modules/invitations/invitations.service';
 
 @Injectable()
 export class GoogleAuthService {
   constructor(
     @InjectRepository(User) private repo: Repository<User>,
     @InjectRepository(Profile) private profileRepo: Repository<Profile>,
+    private invitationsService: InvitationsService,
     private configService: ConfigService,
     private profilesService: ProfilesService,
   ) {}
@@ -29,6 +31,12 @@ export class GoogleAuthService {
   async validateUser({ email, firstName, lastName, avatarUrl, accessToken }): Promise<User> {
     // Check if user exists and create if not.
     const user = await this.repo.findOneBy({ email });
+
+    //Check if user-invitation exists before creating
+    // return 401 if there is no invitation.
+    const result = await this.invitationsService.hasValidInvitation(email);
+    if (!result) return null;
+
     const username = await this.profilesService.generateUsername([firstName, lastName].join('-'));
     if (!user) {
       const user = this.repo.create({
@@ -43,6 +51,7 @@ export class GoogleAuthService {
         firstName,
         lastName,
         avatarUrl,
+        jobTitle: 'Candidate',
         role: user.role,
       });
 

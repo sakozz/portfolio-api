@@ -14,10 +14,12 @@ import { GoogleStrategy } from './strategies/google.strategy';
 import { Profile } from 'src/entities/profile.entity';
 import { ProfilesService } from '../profile/profiles.service';
 import { AbilitiesModule } from '../abilities/abilities.module';
+import { InvitationsService } from '../invitations/invitations.service';
+import { Invitation } from 'src/entities/invitation.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Profile]),
+    TypeOrmModule.forFeature([User, Profile, Invitation]),
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -33,6 +35,7 @@ import { AbilitiesModule } from '../abilities/abilities.module';
   providers: [
     AuthService,
     GoogleAuthService,
+    InvitationsService,
     LocalStrategy,
     JwtStrategy,
     GoogleStrategy,

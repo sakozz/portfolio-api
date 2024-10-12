@@ -60,19 +60,20 @@ export class AuthController {
   async googleLoginCallback(@Req() req: any, @Res() res: Response) {
     const user = await this.googleAuthService.validateUser(req.user);
     // If result is not Profile, it is Error
-    if (!(user instanceof User)) {
-      return user;
+    if (user instanceof User) {
+      const payload: SessionUser = {
+        authToken: req.user.accessToken,
+        refreshToken: req.user.refreshToken,
+        id: user.id,
+        role: user.role,
+        email: user.email,
+      } as SessionUser;
+
+      this.authService.setCookie(res, payload);
+
+      res.redirect(this.configService.get('auth.frontendCallbackUrl'));
     }
-    const payload: SessionUser = {
-      authToken: req.user.accessToken,
-      refreshToken: req.user.refreshToken,
-      id: user.id,
-      role: user.role,
-      email: user.email,
-    } as SessionUser;
 
-    this.authService.setCookie(res, payload);
-
-    res.redirect(this.configService.get('auth.frontendCallbackUrl'));
+    res.redirect(this.configService.get('auth.frontendCallbackUrl') + '?erro=true');
   }
 }

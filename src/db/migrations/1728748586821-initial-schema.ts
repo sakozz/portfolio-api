@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class InitialMigration1725811784750 implements MigrationInterface {
-  name = 'InitialMigration1725811784750';
+export class InitialSchema1728748586821 implements MigrationInterface {
+  name = 'InitialSchema1728748586821';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
@@ -95,6 +95,8 @@ export class InitialMigration1725811784750 implements MigrationInterface {
                 "id" SERIAL NOT NULL,
                 "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "role" character varying(50) NOT NULL,
+                "jobTitle" character varying(100) NOT NULL,
                 "email" character varying(100) NOT NULL,
                 "username" character varying(100) NOT NULL,
                 "phone" character varying(16),
@@ -131,6 +133,21 @@ export class InitialMigration1725811784750 implements MigrationInterface {
                 "isCurrent" boolean DEFAULT false,
                 "profileId" integer,
                 CONSTRAINT "PK_4d68b1358bb5b766d3e78f32f57" PRIMARY KEY ("id")
+            )
+        `);
+    await queryRunner.query(`
+            CREATE TABLE "invitation" (
+                "id" SERIAL NOT NULL,
+                "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
+                "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "email" character varying NOT NULL,
+                "token" character varying NOT NULL,
+                "role" character varying NOT NULL DEFAULT 'manager',
+                "expiresAt" date NOT NULL,
+                "deletedAt" TIMESTAMP,
+                CONSTRAINT "UQ_bcb0a0d2333443083582a05cdd8" UNIQUE ("email"),
+                CONSTRAINT "UQ_e061236e6abd8503aa3890af94c" UNIQUE ("token"),
+                CONSTRAINT "PK_beb994737756c0f18a1c1f8669c" PRIMARY KEY ("id")
             )
         `);
     await queryRunner.query(`
@@ -184,6 +201,9 @@ export class InitialMigration1725811784750 implements MigrationInterface {
         `);
     await queryRunner.query(`
             ALTER TABLE "experience" DROP CONSTRAINT "FK_1ecc32c7c8e5618730f2730613c"
+        `);
+    await queryRunner.query(`
+            DROP TABLE "invitation"
         `);
     await queryRunner.query(`
             DROP TABLE "project"

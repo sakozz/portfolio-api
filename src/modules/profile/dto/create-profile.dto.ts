@@ -27,7 +27,7 @@ export default class CreateProfileDto {
   @IsOptionalOrEmpty()
   @Transform(({ value }) => new Date(value), { toClassOnly: true })
   @IsDate()
-  dateOfBirth: string;
+  dateOfBirth: Date;
 
   @IsOptionalOrEmpty()
   nationality: string;

@@ -51,7 +51,7 @@ export class Profile extends BasicEntity {
   address: string;
 
   @Column({ type: 'date', nullable: true })
-  dateOfBirth: string;
+  dateOfBirth: Date;
 
   @Column({ nullable: true })
   nationality: string;

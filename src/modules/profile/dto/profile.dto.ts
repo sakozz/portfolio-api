@@ -26,7 +26,7 @@ export default class ProfileDto {
   address: string;
 
   @Expose()
-  dateOfBirth: string;
+  dateOfBirth: Date;
 
   @Expose()
   nationality: string;
