@@ -5,7 +5,7 @@ dotenv.config();
 
 export default () =>
   ({
-    port: 3000,
+    port: process.env.API_SERVER_PORT,
     defaultUserRole: 'candidate',
     pg: {
       dbName: process.env.POSTGRES_DB,
@@ -22,9 +22,7 @@ export default () =>
       googleUserProfileUrl: process.env.GOOGLE_SSO_USER_INFO_URL,
       googleCallbackUrl: process.env.GOOGLE_SSO_CALLBACK_URL,
       ttl: 60 * 60 * 24, // 1 day (in seconds)
-      jwtSecret:
-        process.env.JWT_SECRET ||
-        '069f1febf713900e0eed5272f045158ad8f36051165f396fd3f282c419118523',
+      jwtSecret: process.env.JWT_SECRET,
       frontendCallbackUrl: 'http://localhost:4200/auth/google/sso-callback',
     },
   }) as const;

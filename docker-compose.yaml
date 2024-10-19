@@ -1,7 +1,7 @@
 services:
   # postgresql 
-  portfolio-db:
-    container_name: portfolio
+  portfolio_db:
+    container_name: portfolio_db
     hostname:  ${DATABASE_HOST}
     image: postgres:16-alpine
     networks:
@@ -12,6 +12,24 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_USER=${POSTGRES_USER}
+    restart: on-failure
+
+  portfolio_api:
+    container_name: portfolio_api
+    hostname:  ${DATABASE_HOST}
+    image: portfolio_api
+    networks:
+      - backend
+    ports:
+      - ${API_SERVER_PORT}:${API_SERVER_PORT}
+    build:
+      dockerfile: Dockerfile
+    entrypoint: entrypoint.sh
+    command: [ "start:prod" ]
+    env_file:
+      - .env
+    depends_on:
+      - portfolio_db
     restart: on-failure
 
 volumes:
