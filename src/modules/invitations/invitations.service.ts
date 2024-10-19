@@ -29,10 +29,17 @@ export class InvitationsService {
   }
 
   async hasValidInvitation(email: string): Promise<boolean> {
+    if (this.isAdminEmail(email)) return true;
+
     const record = await this.repo.findOneBy({ email });
     if (!record) return false;
+
     const isExpired = isBefore(record.expiresAt, new Date());
     return !isExpired;
+  }
+
+  isAdminEmail(email: string): boolean {
+    return email == this.configService.get('auth.adminEmail');
   }
 
   async create(payload: CreateInvitationDto): Promise<Invitation> {

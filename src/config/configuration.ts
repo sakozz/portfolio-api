@@ -15,6 +15,7 @@ export default () =>
       port: parseInt(process.env.DB_PORT, 10),
     },
     auth: {
+      adminEmail: process.env.ADMIN_EMAIL,
       invitationTtl: 60 * 60 * 24 * 5, // 5 days (in seconds)
       googleClientId: process.env.GOOGLE_CLIENT_ID,
       googleClientSecret: process.env.GOOGLE_SECRET_KEY,

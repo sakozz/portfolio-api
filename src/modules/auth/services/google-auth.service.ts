@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import CreateProfileDto from 'src/modules/profile/dto/create-profile.dto';
 import { InvitationsService } from 'src/modules/invitations/invitations.service';
+import { Role } from 'src/types/roles';
 
 @Injectable()
 export class GoogleAuthService {
@@ -41,7 +42,9 @@ export class GoogleAuthService {
     if (!user) {
       const user = this.repo.create({
         email: email,
-        role: this.configService.get('defaultUserRole'),
+        role: this.invitationsService.isAdminEmail(email)
+          ? 'admin'
+          : this.configService.get('defaultUserRole'),
         password: accessToken,
       });
       const userResult = await this.repo.save(user);
