@@ -9,7 +9,6 @@ import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import CreateProfileDto from 'src/modules/profile/dto/create-profile.dto';
 import { InvitationsService } from 'src/modules/invitations/invitations.service';
-import { Role } from 'src/types/roles';
 
 @Injectable()
 export class GoogleAuthService {

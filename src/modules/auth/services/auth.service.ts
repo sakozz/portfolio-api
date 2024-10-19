@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { LoginDto } from 'src/modules/auth/dto/login.dto';
 import { Repository } from 'typeorm';
-import { SignupDto } from './dto/signup.dto';
+import { SignupDto } from '../dto/signup.dto';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import * as bcrypt from 'bcrypt';
 import { consts } from 'src/config/constants';

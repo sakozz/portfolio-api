@@ -3,7 +3,7 @@ import { LocalGuard } from 'src/modules/auth/guards/local.guard';
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { SignupDto } from './dto/signup.dto';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { consts } from 'src/config/constants';
 import { UserDto } from '../users/dtos/user.dto';
 import { GoogleAuthService } from './services/google-auth.service';
@@ -21,13 +21,13 @@ export class AuthController {
     private authService: AuthService,
     private googleAuthService: GoogleAuthService,
   ) {}
-
+  /* 
   @Post('signup')
   async signup(@Body() body: SignupDto) {
     const result = await this.authService.signupUser(body);
     return result;
   }
-
+*/
   @Post('login')
   @UseGuards(LocalGuard)
   login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
@@ -36,11 +36,6 @@ export class AuthController {
       httpOnly: true,
     });
     return req.user;
-  }
-
-  @Get('profile')
-  status(@Req() req: Request) {
-    return this.authService.profile(req.user['id']);
   }
 
   @Post('logout')

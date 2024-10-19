@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { LocalStrategy } from 'src/modules/auth/strategies/local.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
@@ -16,6 +15,7 @@ import { ProfilesService } from '../profile/profiles.service';
 import { AbilitiesModule } from '../abilities/abilities.module';
 import { InvitationsService } from '../invitations/invitations.service';
 import { Invitation } from 'src/entities/invitation.entity';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
