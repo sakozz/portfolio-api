@@ -33,9 +33,9 @@ export class GoogleAuthService {
     const user = await this.repo.findOneBy({ email });
 
     //Check if user-invitation exists before creating
-    // return 401 if there is no invitation.
+    // return 401 if there is no existing user and no invitation either.
     const result = await this.invitationsService.hasValidInvitation(email);
-    if (!result) return null;
+    if (!user && !result) return null;
 
     const username = await this.profilesService.generateUsername([firstName, lastName].join('-'));
     if (!user) {
