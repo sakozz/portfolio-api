@@ -1,7 +1,7 @@
 services:
   # postgresql 
   portfolio_db:
-    container_name: portfolio_db
+    container_name: ${DATABASE_HOST}
     hostname:  ${DATABASE_HOST}
     image: postgres:16-alpine
     networks:
@@ -16,7 +16,6 @@ services:
 
   portfolio_api:
     container_name: portfolio_api
-    hostname:  ${DATABASE_HOST}
     image: portfolio_api
     networks:
       - backend
@@ -26,8 +25,23 @@ services:
       dockerfile: Dockerfile
     entrypoint: entrypoint.sh
     command: [ "start:prod" ]
-    env_file:
-      - .env
+    environment:
+      - MIGRATION_URL=${MIGRATION_URL}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_ADAPTER=${DATABASE_ADAPTER}
+      - DB_PORT=${DB_PORT}
+      - API_SERVER_PORT=${API_SERVER_PORT}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - FRONTEND_SERVICE=${FRONTEND_SERVICE}
+      - SSO_CALLBACK_URL=${SSO_CALLBACK_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_SECRET_KEY=${GOOGLE_SECRET_KEY}
+      - GOOGLE_SSO_USER_INFO_URL=${GOOGLE_SSO_USER_INFO_URL}
+      - GOOGLE_SSO_CALLBACK_URL=${GOOGLE_SSO_CALLBACK_URL}
     depends_on:
       - portfolio_db
     restart: on-failure
