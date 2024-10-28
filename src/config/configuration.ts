@@ -23,6 +23,6 @@ export default () =>
       googleCallbackUrl: process.env.GOOGLE_SSO_CALLBACK_URL,
       ttl: 60 * 60 * 24, // 1 day (in seconds)
       jwtSecret: process.env.JWT_SECRET,
-      frontendCallbackUrl: 'http://localhost:4200/auth/google/sso-callback',
+      frontendCallbackUrl: process.env.FRONTEND_SERVICE + '/auth/google/sso-callback',
     },
   }) as const;
