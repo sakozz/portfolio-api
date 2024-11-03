@@ -21,5 +21,5 @@ ENV     NODE_ENV production
 USER    node
 
 # Start the server using the production build
-
 EXPOSE  ${API_SERVER_PORT}
+RUN     npm run start:prod
