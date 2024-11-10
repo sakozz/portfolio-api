@@ -20,7 +20,7 @@ export default class UpdateProjectDto {
   @IsNotEmpty()
   @MinLength(consts.descriptionsMinLength)
   @MaxLength(consts.descriptionMaxLength)
-  responsibilities: string;
+  description: string;
 
   @IsNotEmpty()
   @MinLength(consts.nameMinLength)

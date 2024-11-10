@@ -66,18 +66,19 @@ export class CompetencesService {
       const [attr, opt] = key.split('__');
       const value = filters[key];
       let params = { [attr]: value };
-      if (opt === 'eq') {
-        builder.andWhere(`${attr} = :${attr}`, params);
-      }
 
-      if (opt === 'match') {
-        params = { [attr]: `%${value}%` };
-        builder.andWhere(`${attr} ILIKE :${attr}`, params);
-      }
-
-      if (opt === 'in') {
-        params = { [attr]: value.toString().split(',') };
-        builder.andWhere(`${attr} IN (:...${attr})`, params);
+      switch (opt) {
+        case 'match':
+          params = { [attr]: `%${value}%` };
+          builder.andWhere(`${attr} ILIKE :${attr}`, params);
+          break;
+        case 'in':
+          params = { [attr]: value.toString().split(',') };
+          builder.andWhere(`${attr} IN (:...${attr})`, params);
+          break;
+        default:
+          builder.andWhere(`${attr} = :${attr}`, params);
+          break;
       }
     });
 

@@ -1,8 +1,8 @@
 services:
-  # postgresql 
+  # postgresql
   portfolio_db:
     container_name: ${DATABASE_HOST}
-    hostname:  ${DATABASE_HOST}
+    hostname: ${DATABASE_HOST}
     image: postgres:16-alpine
     networks:
       - backend
@@ -24,7 +24,7 @@ services:
     build:
       dockerfile: Dockerfile
     entrypoint: entrypoint.sh
-    command: [ "start:prod" ]
+    command: ['start:prod']
     environment:
       - MIGRATION_URL=${MIGRATION_URL}
       - POSTGRES_DB=${POSTGRES_DB}
@@ -45,10 +45,6 @@ services:
     depends_on:
       - portfolio_db
     restart: on-failure
-
-volumes:
-  dbgate-data:
-    driver: local
 
 networks:
   backend:

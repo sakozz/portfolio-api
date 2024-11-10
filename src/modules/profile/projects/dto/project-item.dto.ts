@@ -13,7 +13,7 @@ export default class ProjectItemDto {
   name: string;
 
   @Expose()
-  responsibilities: string;
+  description: string;
 
   @Expose()
   companyName: string;

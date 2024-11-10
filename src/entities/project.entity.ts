@@ -16,7 +16,7 @@ export class Project extends BasicEntity {
   name: string;
 
   @Column({ length: consts.descriptionMaxLength })
-  responsibilities: string;
+  description: string;
 
   @Column({ length: consts.nameMaxLength })
   companyName: string;
