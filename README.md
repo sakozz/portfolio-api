@@ -2,29 +2,48 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The portfolio API is a web application that provides a set of RESTful APIs for managing user profiles, projects, competencies, education, and professional experiences. The project utilizes the NestJS framework, which provides a robust and scalable foundation for building the API. The API is built using TypeScript, Docker Compose, and various libraries such as TypeORM, Passport.js, and Axios.
+
+**Libraries/Tools Used**
+
+- NestJS: used as the primary framework for building the API
+- TypeScript: used as the primary programming language for building the API
+- TypeORM: used as an object-relational mapping (ORM) tool for interacting with databases
+- Passport.js: used as an authentication middleware to handle user authentication and authorization
+- Class-validator: used as a library for validating data in the API
+- Class-transformer: used as a library for transforming data between different formats
+- JWT (JSON Web Tokens): used as a token-based authentication mechanism
+- OAuth 2.0 (for Google authentication): used to authenticate users using their Google account
+- Axios Library: used to make HTTP requests to the API from frontend applications
+
+**Features**
+
+The portfolio API provides the following features:
+
+1. **Profile Management**: Users can manage their own profiles, including their name, email, and other personal information
+2. **Projects History**: Users can manage projects they have worked on, with details such as project title, description, and dates.
+3. **Professional Experiences**: Users can create, update, and delete their professional experiences, including job titles, company names, and dates.
+4. **Education**: Users can create, update, and delete their education records, including degrees earned, institutions attended, and dates.
+5. **Competences Management**: Users manage their competencies and provide the level of competence for each
+
+**Authentication**
+
+The portfolio API includes authentication using Google OAuth 2.0, as well as Casal (a library for handling Casl policies), which allows users to authenticate and authorize their access to the API based on their role and permissions.
+
+**Security Measures**
+
+The portfolio API includes several security measures to protect against common web vulnerabilities:
+
+- Authentication: JWT authentication using Passport.js
+- Authorization: Role-based access control using TypeORM, Passport.js, and Casal
+- Input validation: Using Class-validator and Class-transformer for input validation
+- Error handling: Custom error handling mechanism using NestJS
+
+**Scalability and Performance**
+
+The portfolio API is designed to scale horizontally, with support for load balancing and multiple instances of each service. The API uses a RESTful architecture, which allows for easy scalability and flexibility.
 
 ## Installation
 
@@ -58,16 +77,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
 ## License
 
-Nest is [MIT licensed](LICENSE).
+MIT License
