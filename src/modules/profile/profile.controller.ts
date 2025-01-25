@@ -11,7 +11,6 @@ import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import SessionUser from 'src/types/common';
 import { profileAbilityFactory } from './profile.abilities';
-import { User } from 'src/entities/user.entity';
 
 @Controller('profiles')
 @Serialize(ProfileDto)
